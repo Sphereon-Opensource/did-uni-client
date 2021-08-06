@@ -5,8 +5,8 @@
 </h1>
 
 ### Did-uni-client
-The did-uni-client library is a library to call the universal registrar (e.g. https://uniregistrar.sphereon.io) to create, update and deactivate decentralized identifiers. 
-And to call the universal resolver (e.g https://uniresolver.sphereon.io) to resolve decentralized identifiers to did documents. It is written in Typescript and can be compiled to any target JavaScript version.
+The did-uni-client is a library to call a universal registrar (e.g. https://uniregistrar.sphereon.io) to create, update and deactivate decentralized identifiers. 
+And to call a universal resolver (e.g https://uniresolver.sphereon.io) to resolve decentralized identifiers to did documents. It is written in Typescript and can be compiled to any target JavaScript version.
 
 ### Supported actions
  * Creating a decentralized identifier (DID)
@@ -67,18 +67,18 @@ resolve('did:btcr:xz35-jznz-q6mr-7q6')
  ```
 
 ### Configuration
-To use the library, a URL needs to be available for the universal registrar and universal resolver. There are two options to configure the URL's.
+To use the library, a URL needs to be available for a universal registrar and a universal resolver. There are two options to configure the URL's.
 The library will first check if there is an environment variable, if this is not present it will look in the config file.
 
 ##### Environment variable
-REGISTRAR_URL - Defines the URL for the universal registrar (e.g https://uniregistrar.sphereon.io)  
-RESOLVER_URL - Defines the URL for the universal resolver (e.g https://uniresolver.sphereon.io)  
+REGISTRAR_URL - Defines the URL for a universal registrar (e.g https://uniregistrar.sphereon.io)  
+RESOLVER_URL - Defines the URL for a universal resolver (e.g https://uniresolver.sphereon.io)  
 
 ##### Config file
 A config file is available here 'src/config.ts'.
 
-registrarUrl - Defines the URL for the universal registrar (e.g https://uniregistrar.sphereon.io)  
-resolverUrl - Defines the URL for the universal resolver (e.g https://uniresolver.sphereon.io)  
+registrarUrl - Defines the URL for a universal registrar (e.g https://uniregistrar.sphereon.io)  
+resolverUrl - Defines the URL for a universal resolver (e.g https://uniresolver.sphereon.io)  
 
 ### Build
 ```shell

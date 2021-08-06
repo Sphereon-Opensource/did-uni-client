@@ -14,6 +14,8 @@ And to call a universal resolver (e.g https://uniresolver.sphereon.io) to resolv
  * Deactivating a decentralized identifier (DID)
  * Resolving a decentralized identifier (DID)
 
+#### Examples
+
 ##### DID creation
  ```typescript
 const {create} = require('did-uni-client');

@@ -1,2 +1,2 @@
-export const registrarUrl = 'https://uniregistrar.io';
-export const resolverUrl = 'https://dev.uniresolver.io';
+export const registrarUrl = 'https://uniregistrar.sphereon.io/';
+export const resolverUrl = 'https://uniresolver.sphereon.io/';

@@ -4,8 +4,8 @@ import axios = require('axios');
 
 import config = require('../config');
 
-import { DeactivateOptions } from './dto/deactivateOptions';
 import { CreateOptions } from './dto/createOptions';
+import { DeactivateOptions } from './dto/deactivateOptions';
 import { UpdateOptions } from './dto/updateOptions';
 
 const registrarUrl = process.env.REGISTRAR_URL || config.registrarUrl;

@@ -1,7 +1,7 @@
 const nock = require('nock');
 
-const config = require('../dist/config');
-const {create, update, deactivate} = require('../dist/registrar/registrar');
+const config = require('../src/config');
+const {create, update, deactivate} = require('../src/registrar/registrar');
 
 describe('create identity', () => {
   const method = 'btcr';

@@ -5,8 +5,8 @@
 </h1>
 
 ### Did-uni-client
-The did-uni-client library is a library to call the universal registrar to create, update and deactivate decentralized identifiers. 
-And to call the universal resolver to resolve decentralized identifiers to did documents. It is written in Typescript and can be compiled to any target JavaScript version.
+The did-uni-client library is a library to call the universal registrar (e.g. https://uniregistrar.sphereon.io) to create, update and deactivate decentralized identifiers. 
+And to call the universal resolver (e.g https://uniresolver.sphereon.io) to resolve decentralized identifiers to did documents. It is written in Typescript and can be compiled to any target JavaScript version.
 
 ### Supported actions
  * Creating a decentralized identifier (DID)

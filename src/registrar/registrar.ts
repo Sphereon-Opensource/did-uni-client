@@ -5,12 +5,12 @@ import axios = require('axios');
 import config = require('../config');
 
 import { DeactivateOptions } from './dto/deactivateOptions';
-import { RegisterOptions } from './dto/registerOptions';
+import { CreateOptions } from './dto/createOptions';
 import { UpdateOptions } from './dto/updateOptions';
 
 const registrarUrl = process.env.REGISTRAR_URL || config.registrarUrl;
 
-export function create(method: string, options: RegisterOptions) {
+export function create(method: string, options: CreateOptions) {
   const url = `${registrarUrl}/1.0/create`;
   return axios.default.post(url, options, { params: { method } }).then((result) => result.data);
 }

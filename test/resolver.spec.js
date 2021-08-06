@@ -1,7 +1,7 @@
 const nock = require('nock');
 
-const config = require('../dist/config');
-const {resolve} = require('../dist/resolver/resolver');
+const config = require('../src/config');
+const {resolve} = require('../src/resolver/resolver');
 
 describe('resolve identifier', () => {
   const identifier = 'did:btcr:xz35-jznz-q6mr-7q6';

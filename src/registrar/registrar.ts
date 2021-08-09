@@ -1,26 +1,47 @@
 'use strict';
 
-import axios = require('axios');
-
 import config = require('../config');
 
 import { CreateOptions } from './dto/createOptions';
 import { DeactivateOptions } from './dto/deactivateOptions';
 import { UpdateOptions } from './dto/updateOptions';
 
+const fetch = require('cross-fetch');
+
 const registrarUrl = process.env.REGISTRAR_URL || config.registrarUrl;
 
 export function create(method: string, options: CreateOptions) {
-  const url = `${registrarUrl}/1.0/create`;
-  return axios.default.post(url, options, { params: { method } }).then((result) => result.data);
+  const url = new URL(`${registrarUrl}/1.0/create?method=${method}`);
+  return fetch(url, {
+    method: 'post',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(options),
+  }).then((result) => result.json());
 }
 
 export function update(method: string, options: UpdateOptions) {
-  const url = `${registrarUrl}/1.0/update`;
-  return axios.default.post(url, options, { params: { method } }).then((result) => result.data);
+  const url = new URL(`${registrarUrl}/1.0/update?method=${method}`);
+  return fetch(url, {
+    method: 'post',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(options),
+  }).then((result) => result.json());
 }
 
 export function deactivate(method: string, options: DeactivateOptions) {
-  const url = `${registrarUrl}/1.0/deactivate`;
-  return axios.default.post(url, options, { params: { method } }).then((result) => result.data);
+  const url = new URL(`${registrarUrl}/1.0/deactivate?method=${method}`);
+  return fetch(url, {
+    method: 'post',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(options),
+  }).then((result) => result.json());
 }

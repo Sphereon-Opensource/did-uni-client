@@ -53,10 +53,12 @@ export class Registrar {
     this.deactivateUrl = url;
   }
 
+  //TODO update method
   /**
    * Creates a identity for a specific method.
    *
-   * @param type The identifier (did).
+   * @param method The identifier (did).
+   * @param identifier The identifier (did).
    * @param options Options matching the method needed for creating the identity.
    */
   create(method: string, options: CreateOptions) {
@@ -73,8 +75,15 @@ export class Registrar {
     }).then((result) => result.json());
   }
 
-  //TODO docstring
-  update(method: string, options: UpdateOptions) {
+  //TODO update method
+  /**
+   * Updates a identity for a specific method.
+   *
+   * @param method The identifier (did).
+   * @param identifier The identifier (did).
+   * @param options Options matching the method needed for updating the identity.
+   */
+  update(method: string, identifier: string, options: UpdateOptions) {
     const url = new URL(this.updateUrl);
     url.searchParams.append('method', method);
     return fetch(url, {
@@ -83,12 +92,19 @@ export class Registrar {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(options),
+      body: JSON.stringify({ ...options, identifier }),
     }).then((result) => result.json());
   }
 
-  //TODO docstring
-  deactivate(method: string, options: DeactivateOptions) {
+  //TODO update method
+  /**
+   * Deactivates a identity for a specific method.
+   *
+   * @param method .
+   * @param identifier The identifier (did).
+   * @param options Options matching the method needed for deactivating the identity.
+   */
+  deactivate(method: string, identifier: string, options: DeactivateOptions) {
     const url = new URL(this.deactivateUrl);
     url.searchParams.append('method', method);
     return fetch(url, {
@@ -97,7 +113,7 @@ export class Registrar {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(options),
+      body: JSON.stringify({ ...options, identifier }),
     }).then((result) => result.json());
   }
 }

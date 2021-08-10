@@ -56,7 +56,6 @@ describe('setting a url', () => {
   });
 });
 
-
 describe('create identity', () => {
   const method = 'btcr';
   const options = {
@@ -80,21 +79,21 @@ describe('create identity', () => {
 
 describe('update identity', () => {
   const method = 'btcr';
+  const identifier = 'did:btcr:xz35-jznz-q6mr-7q6';
   const options = {
     jobId: '6d85bcd0-2ea3-4288-ab00-15afadd8a156',
-    identifier: 'did:btcr:xz35-jznz-q6mr-7q6',
     options: {chain: 'TESTNET'},
     secret: {token: 'ey...'},
     didDocument
   };
 
   nock(config.registrarUrlUpdate)
-    .post(`?method=${method}`, options)
+    .post(`?method=${method}`, { ...options, identifier })
     .reply(200, {jobId: '6d85bcd0-2ea3-4288-ab00-15afadd8a156'});
 
   it('should return identity creation job', async () => {
     const registrar = new Registrar();
-    const job = await registrar.update(method, options);
+    const job = await registrar.update(method, identifier, options);
 
     expect(job.jobId).toEqual(options.jobId);
   });
@@ -102,21 +101,21 @@ describe('update identity', () => {
 
 describe('deactivate identity', () => {
   const method = 'btcr';
+  const identifier = 'did:btcr:xz35-jznz-q6mr-7q6';
   const options = {
     jobId: '6d85bcd0-2ea3-4288-ab00-15afadd8a156',
-    identifier: 'did:btcr:xz35-jznz-q6mr-7q6',
     options: {chain: 'TESTNET'},
     secret: {token: 'ey...'},
     didDocument
   };
 
   nock(config.registrarUrlDeactivate)
-    .post(`?method=${method}`, options)
+    .post(`?method=${method}`, { ...options, identifier })
     .reply(200, {jobId: '6d85bcd0-2ea3-4288-ab00-15afadd8a156'});
 
   it('should return identity creation job', async () => {
     const registrar = new Registrar();
-    const job = await registrar.deactivate(method, options);
+    const job = await registrar.deactivate(method, identifier, options);
 
     expect(job.jobId).toEqual(options.jobId);
   });

@@ -8,24 +8,32 @@ const config = require('../config');
  * Class for performing various DID resolving operations.
  */
 export class Resolver {
-  /** URL associated with the resolver */
-  private url: string;
+  /** Resolve URL associated with a resolver */
+  private resolveUrl: string;
 
-  constructor(url: string = process.env.RESOLVER_URL || config.resolverUrl) {
-    this.url = url;
+  /** Resolver constructor */
+  constructor() {
+    this.resolveUrl = process.env.RESOLVER_URL_RESOLVE || config.resolverUrlResolve;
   }
 
   /**
-   * Sets the URL for the resolver.
+   * Sets the URL for the resolve endpoint.
    *
-   * @param type The URL for the resolver.
+   * @param url The URL for the resolve endpoint.
+   * @example 'https://uniresolver.io/1.0/identifiers'.
    */
-  setURL(url: string) {
-    this.url = url;
+  setResolveUrl(url: string) {
+    this.resolveUrl = url;
   }
 
+  /**
+   * Resolves a given identifier to did document.
+   *
+   * @param identifier The identifier (did).
+   * returns did resolution.
+   */
   resolve(identifier: string) {
-    const url = new URL(`${this.url}/1.0/identifiers/${identifier}`);
+    const url = new URL(`${this.resolveUrl}/${identifier}`);
     return fetch(url).then((result) => {
       return result.json();
     });

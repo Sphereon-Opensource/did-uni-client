@@ -12,24 +12,55 @@ const config = require('../config');
  * Class for performing various DID resolving operations.
  */
 export class Registrar {
-  /** URL associated with the registrar */
-  private url: string;
+  /** Create URL associated with a registrar */
+  private createUrl: string;
+  /** Update URL associated with a registrar */
+  private updateUrl: string;
+  /** Deactivate URL associated with a registrar */
+  private deactivateUrl: string;
 
-  constructor(url: string = process.env.REGISTRAR_URL || config.registrarUrl) {
-    this.url = url;
+  /** Registrar constructor */
+  constructor() {
+    this.createUrl = process.env.REGISTRAR_URL_CREATE || config.registrarUrlCreate;
+    this.updateUrl = process.env.REGISTRAR_URL_UPDATE || config.registrarUrlUpdate;
+    this.deactivateUrl = process.env.REGISTRAR_URL_DEACTIVATE || config.registrarUrlDeactivate;
   }
 
   /**
-   * Sets the URL for the registrar.
+   * Sets the create URL for the registrar.
    *
-   * @param type The URL for the registrar.
+   * @param url The create URL for the registrar.
    */
-  setURL(url: string) {
-    this.url = url;
+  setCreateURL(url: string) {
+    this.createUrl = url;
   }
 
+  /**
+   * Sets the update URL for the registrar.
+   *
+   * @param url The update URL for the registrar.
+   */
+  setUpdateURL(url: string) {
+    this.updateUrl = url;
+  }
+
+  /**
+   * Sets the deactivate URL for the registrar.
+   *
+   * @param url The deactivate URL for the registrar.
+   */
+  setDeactivateURL(url: string) {
+    this.deactivateUrl = url;
+  }
+
+  /**
+   * Creates a identity for a specific method.
+   *
+   * @param type The identifier (did).
+   * @param options Options matching the method needed for creating the identity.
+   */
   create(method: string, options: CreateOptions) {
-    const url = new URL(`${this.url}/1.0/create`);
+    const url = new URL(this.createUrl);
     url.searchParams.append('method', method);
 
     return fetch(url, {
@@ -42,8 +73,9 @@ export class Registrar {
     }).then((result) => result.json());
   }
 
+  //TODO docstring
   update(method: string, options: UpdateOptions) {
-    const url = new URL(`${this.url}/1.0/update`);
+    const url = new URL(this.updateUrl);
     url.searchParams.append('method', method);
     return fetch(url, {
       method: 'post',
@@ -55,8 +87,9 @@ export class Registrar {
     }).then((result) => result.json());
   }
 
+  //TODO docstring
   deactivate(method: string, options: DeactivateOptions) {
-    const url = new URL(`${this.url}/1.0/deactivate`);
+    const url = new URL(this.deactivateUrl);
     url.searchParams.append('method', method);
     return fetch(url, {
       method: 'post',

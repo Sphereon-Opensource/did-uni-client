@@ -1,2 +1,7 @@
-export const registrarUrl = 'https://uniregistrar.sphereon.io';
-export const resolverUrl = 'https://uniresolver.sphereon.io';
+/** Registrar URL's*/
+export const registrarUrlCreate = 'https://uniregistrar.io/1.0/create';
+export const registrarUrlUpdate = 'https://uniregistrar.io/1.0/update';
+export const registrarUrlDeactivate = 'https://uniregistrar.io/1.0/update';
+
+/** Resolver URL's*/
+export const resolverUrlResolve = 'https://dev.uniresolver.io/1.0/identifiers';

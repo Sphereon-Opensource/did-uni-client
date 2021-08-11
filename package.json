@@ -22,9 +22,9 @@
     "README.md"
   ],
   "dependencies": {
-    "@decentralized-identity/did-common-typescript": "^0.1.19",
     "@types/node": "^16.4.12",
-    "cross-fetch": "^3.1.4"
+    "cross-fetch": "^3.1.4",
+    "did-resolver": "^3.1.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.29.0",

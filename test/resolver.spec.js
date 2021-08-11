@@ -22,11 +22,21 @@ describe('identifier resolving', () => {
 
   nock(config.resolverUrlResolve)
     .get(`/${identifier}`)
-    .reply(200, {id: identifier});
+    .reply(200, {
+        didResolutionMetadata: {},
+        didDocument: {id: identifier},
+        didDocumentMetadata: {}}
+      );
 
   it('should resolve identifier to did document', async () => {
     const resolver = new Resolver();
-    const didDocument = await resolver.resolve(identifier);
-    expect(didDocument.id).toEqual(identifier);
+    const didResolutionResult = await resolver.resolve(identifier);
+    expect(didResolutionResult.didDocument.id).toEqual(identifier);
+  });
+
+  it('should result in didResolutionMetadata with error when providing invalid identifier', async () => {
+    const resolver = new Resolver();
+    const didResolutionResult = await resolver.resolve('abcdefg123456789');
+    expect(didResolutionResult.didResolutionMetadata.error).toEqual('invalidDid');
   });
 });

@@ -1,10 +1,10 @@
 'use strict';
 
-import { IDidDocument } from '@decentralized-identity/did-common-typescript';
+import { DIDDocument } from 'did-resolver';
 
 export class CrudRequest {
   public jobId: string;
-  public didDocument: IDidDocument;
+  public didDocument: DIDDocument;
   public options: Record<string, unknown>;
   public secret: Record<string, unknown>;
 

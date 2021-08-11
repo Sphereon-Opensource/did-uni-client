@@ -1,5 +1,7 @@
 'use strict';
 
+import { DIDResolutionResult, parse } from 'did-resolver';
+
 const fetch = require('cross-fetch');
 
 const config = require('../config');
@@ -29,10 +31,19 @@ export class Resolver {
    * Resolves a given identifier to did document.
    *
    * @param identifier The identifier (did).
-   * returns did resolution.
+   * returns did resolution result.
    */
-  public resolve(identifier: string) {
-    const url = new URL(`${this.resolveUrl}/${identifier}`);
+  public resolve(identifier: string): DIDResolutionResult {
+    const parsedIdentifier = parse(identifier);
+    if (parsedIdentifier === null) {
+      return {
+        didDocument: null,
+        didDocumentMetadata: {},
+        didResolutionMetadata: { error: 'invalidDid' },
+      };
+    }
+
+    const url = new URL(`${this.resolveUrl}/${parsedIdentifier.did}`);
     return fetch(url).then((result) => {
       return result.json();
     });

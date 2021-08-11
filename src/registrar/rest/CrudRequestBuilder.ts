@@ -1,13 +1,13 @@
 'use strict';
 
-import { IDidDocument } from '@decentralized-identity/did-common-typescript';
+import { DIDDocument } from 'did-resolver';
 
 import { CrudRequest } from './CrudRequest';
 import { ICrudRequest } from './ICrudRequest';
 
 export class CrudRequestBuilder implements Partial<ICrudRequest> {
   jobId?: string;
-  didDocument?: IDidDocument;
+  didDocument?: DIDDocument;
   options?: Record<string, unknown>;
   secret?: Record<string, unknown>;
 
@@ -15,7 +15,7 @@ export class CrudRequestBuilder implements Partial<ICrudRequest> {
     return Object.assign(this, { jobId: value });
   }
 
-  withDidDocument(value: IDidDocument): this & Pick<ICrudRequest, 'didDocument'> {
+  withDidDocument(value: DIDDocument): this & Pick<ICrudRequest, 'didDocument'> {
     return Object.assign(this, { didDocument: value });
   }
 

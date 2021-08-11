@@ -24,6 +24,7 @@ export class Resolver {
    * Sets the base URL for the registrar.
    *
    * @param url The base URL for the registrar.
+   * @return this.
    */
   public setBaseURL(url: string): this {
     this.resolveUrl = `${url}${new URL(this.resolveUrl).pathname}`;
@@ -35,6 +36,7 @@ export class Resolver {
    * Sets the URL for the resolve endpoint.
    *
    * @param url The URL for the resolve endpoint.
+   * @return this.
    */
   public setResolveURL(url: string): this {
     this.resolveUrl = url;
@@ -44,6 +46,7 @@ export class Resolver {
 
   /**
    * Gets the URL for the resolve endpoint.
+   * @return resolve URL.
    */
   public getResolveURL(): string {
     return this.resolveUrl;
@@ -53,7 +56,7 @@ export class Resolver {
    * Resolves a given did to did document.
    *
    * @param did The identifier (did).
-   * returns did resolution result.
+   * @return did resolution result.
    */
   public resolve(did: string): DIDResolutionResult {
     const parsedDid = parse(did);

@@ -32,6 +32,7 @@ export class Registrar {
    * Sets the base URL for the registrar.
    *
    * @param url The base URL for the registrar.
+   * @return this.
    */
   public setBaseURL(url: string): this {
     this.createUrl = `${url}${new URL(this.createUrl).pathname}`;
@@ -45,6 +46,7 @@ export class Registrar {
    * Sets the create URL for the registrar.
    *
    * @param url The create URL for the registrar.
+   * @return this.
    */
   public setCreateURL(url: string): this {
     this.createUrl = url;
@@ -54,6 +56,7 @@ export class Registrar {
 
   /**
    * Gets the URL for the create endpoint.
+   * @return create URL.
    */
   public getCreateURL(): string {
     return this.createUrl;
@@ -63,6 +66,7 @@ export class Registrar {
    * Sets the update URL for the registrar.
    *
    * @param url The update URL for the registrar.
+   * @return this.
    */
   public setUpdateURL(url: string): this {
     this.updateUrl = url;
@@ -72,6 +76,7 @@ export class Registrar {
 
   /**
    * Gets the URL for the update endpoint.
+   * @return update URL.
    */
   public getUpdateURL(): string {
     return this.updateUrl;
@@ -81,6 +86,7 @@ export class Registrar {
    * Sets the deactivate URL for the registrar.
    *
    * @param url The deactivate URL for the registrar.
+   * @return this.
    */
   public setDeactivateURL(url: string): this {
     this.deactivateUrl = url;
@@ -90,6 +96,7 @@ export class Registrar {
 
   /**
    * Gets the URL for the deactivate endpoint.
+   * @return deactivate URL.
    */
   public getDeactivateURL(): string {
     return this.deactivateUrl;
@@ -100,6 +107,7 @@ export class Registrar {
    *
    * @param method The requested DID method for the operation.
    * @param request Request matching the method needed for creating the identity.
+   * @return job result.
    */
   public create(method: string, request: CrudRequest) {
     const url = this.createURL(this.createUrl, method);
@@ -119,6 +127,7 @@ export class Registrar {
    *
    * @param did The identifier (did).
    * @param request Request matching the method needed for updating the identity.
+   * @return job result.
    */
   public update(did: string, request: CrudRequest) {
     const parsedDid = parse(did);
@@ -145,6 +154,7 @@ export class Registrar {
    *
    * @param did The identifier (did).
    * @param request Request matching the method needed for deactivating the identity.
+   * @return job result.
    */
   public deactivate(did: string, request: CrudRequest) {
     const parsedDid = parse(did);
@@ -166,6 +176,13 @@ export class Registrar {
     }).then((result) => result.json());
   }
 
+  /**
+   * Creates a URL with method query parameter.
+   *
+   * @param url The URL.
+   * @param method The did method.
+   * @return url with query parameter.
+   */
   private createURL(url: string, method: string): URL {
     const newUrl = new URL(url);
     newUrl.searchParams.append('method', method);

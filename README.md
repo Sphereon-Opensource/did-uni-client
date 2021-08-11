@@ -18,43 +18,49 @@ And to call a universal resolver (e.g https://uniresolver.sphereon.io) to resolv
 
 ##### DID creation
  ```typescript
-const {create} = require('did-uni-client');
+const {Registrar, CrudRequestBuilder} = require('did-uni-client');
 
-const options = {
-  chain: 'TESTNET',
-};
+const method = 'btcr';
+const request = new CrudRequestBuilder()
+    .withOptions({chain: 'TESTNET'})
+    .build();
 
-create('btcr', options)
+const registrar = new Registrar();
+registrar.create(method, request) 
   .then(result => 'success')
   .catch(error => 'failed');
  ```
 
 ##### DID updating
  ```typescript
-const {update} = require('did-uni-client');
+const {Registrar, CrudRequestBuilder} = require('did-uni-client');
 
-const options = {
-  identifier: "did:btcr:xz35-jznz-q6mr-7q6",
-  options: {chain:"TESTNET"},
-  secret:{token:"ey..."}
-};
+const method = 'btcr';
+const identifier = 'did:btcr:xz35-jznz-q6mr-7q6';
+const request = new CrudRequestBuilder()
+    .withOptions({chain: 'TESTNET'})
+    .withSecret({token:"ey..."})
+    .build();
 
-update('btcr', options)
+const registrar = new Registrar();
+registrar.update(method, identifier, request)
   .then(result => 'success')
   .catch(error => 'failed');
  ```
 
 ##### DID deactivating
  ```typescript
-const {deactivate} = require('did-uni-client');
+const {Registrar, CrudRequestBuilder} = require('did-uni-client');
 
-const options = {
-  identifier: "did:btcr:xz35-jznz-q6mr-7q6",
-  options: {chain:"TESTNET"},
-  secret:{token:"ey..."}
-};
+const method = 'btcr';
+const identifier = 'did:btcr:xz35-jznz-q6mr-7q6';
+const request = new CrudRequestBuilder()
+    .withOptions({chain: 'TESTNET'})
+    .withSecret({token:"ey..."})
+    .build();
 
-deactivate('btcr', options)
+const registrar = new Registrar();
+registrar.deactivate(method, identifier, request)
   .then(result => 'success')
   .catch(error => 'failed');
  ```
@@ -69,18 +75,20 @@ resolve('did:btcr:xz35-jznz-q6mr-7q6')
  ```
 
 ### Configuration
-To use the library, a URL needs to be available for a universal registrar and a universal resolver. There are two options to configure the URL's.
+To use the library, URL's needs to be available for universal registrar endpoints and universal resolver endpoints. There are two options to configure the URL's.
 The library will first check if there is an environment variable, if this is not present it will look in the config file.
 
 ##### Environment variable
-REGISTRAR_URL - Defines the URL for a universal registrar (e.g https://uniregistrar.sphereon.io)  
-RESOLVER_URL - Defines the URL for a universal resolver (e.g https://uniresolver.sphereon.io)  
+###### Registrar
+REGISTRAR_URL_CREATE - Defines the URL for a universal registrar create endpoint (e.g https://uniregistrar.io/1.0/create)  
+REGISTRAR_URL_UPDATE - Defines the URL for a universal registrar update endpoint (https://uniregistrar.io/1.0/update)  
+REGISTRAR_URL_DEACTIVATE - Defines the URL for a universal registrar deactivate endpoint (https://uniregistrar.io/1.0/deactivate)  
+
+###### Resolver
+RESOLVER_URL_RESOLVE - Defines the URL for a universal resolve resolve endpoint (https://dev.uniresolver.io/1.0/identifiers)  
 
 ##### Config file
 A config file is available here 'src/config.ts'.
-
-registrarUrl - Defines the URL for a universal registrar (e.g https://uniregistrar.sphereon.io)  
-resolverUrl - Defines the URL for a universal resolver (e.g https://uniresolver.sphereon.io)  
 
 ### Build
 ```shell

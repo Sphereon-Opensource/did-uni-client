@@ -5,12 +5,7 @@ import { DIDDocument } from 'did-resolver';
 import { CrudRequest } from './CrudRequest';
 import { ICrudRequest } from './ICrudRequest';
 
-export class CrudRequestBuilder implements Partial<ICrudRequest> {
-  jobId?: string;
-  didDocument?: DIDDocument;
-  options?: Record<string, unknown>;
-  secret?: Record<string, unknown> | string;
-
+export class CrudRequestBuilder extends CrudRequest implements Partial<ICrudRequest> {
   withJobId(value: string): this & Pick<ICrudRequest, 'jobId'> {
     return Object.assign(this, { jobId: value });
   }

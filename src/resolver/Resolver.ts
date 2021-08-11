@@ -22,7 +22,7 @@ export class Resolver {
    * @param url The URL for the resolve endpoint.
    * @example 'https://uniresolver.io/1.0/identifiers'.
    */
-  setResolveUrl(url: string) {
+  public setResolveUrl(url: string): void {
     this.resolveUrl = url;
   }
 
@@ -32,7 +32,7 @@ export class Resolver {
    * @param identifier The identifier (did).
    * returns did resolution.
    */
-  resolve(identifier: string) {
+  public resolve(identifier: string) {
     const url = new URL(`${this.resolveUrl}/${identifier}`);
     return fetch(url).then((result) => {
       return result.json();

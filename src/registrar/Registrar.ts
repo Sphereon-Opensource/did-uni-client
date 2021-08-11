@@ -1,8 +1,6 @@
 'use strict';
 
-import { CreateOptions } from './dto/createOptions';
-import { DeactivateOptions } from './dto/deactivateOptions';
-import { UpdateOptions } from './dto/updateOptions';
+import { CrudRequest } from './rest/CrudRequest';
 
 const fetch = require('cross-fetch');
 
@@ -31,7 +29,7 @@ export class Registrar {
    *
    * @param url The create URL for the registrar.
    */
-  setCreateURL(url: string) {
+  public setCreateURL(url: string): void {
     this.createUrl = url;
   }
 
@@ -40,7 +38,7 @@ export class Registrar {
    *
    * @param url The update URL for the registrar.
    */
-  setUpdateURL(url: string) {
+  public setUpdateURL(url: string): void {
     this.updateUrl = url;
   }
 
@@ -49,7 +47,7 @@ export class Registrar {
    *
    * @param url The deactivate URL for the registrar.
    */
-  setDeactivateURL(url: string) {
+  public setDeactivateURL(url: string): void {
     this.deactivateUrl = url;
   }
 
@@ -61,7 +59,8 @@ export class Registrar {
    * @param identifier The identifier (did).
    * @param options Options matching the method needed for creating the identity.
    */
-  create(method: string, options: CreateOptions) {
+  public create(method: string, request: CrudRequest) {
+    //TODO return type
     const url = new URL(this.createUrl);
     url.searchParams.append('method', method);
 
@@ -71,7 +70,7 @@ export class Registrar {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(options),
+      body: JSON.stringify(request),
     }).then((result) => result.json());
   }
 
@@ -83,7 +82,8 @@ export class Registrar {
    * @param identifier The identifier (did).
    * @param options Options matching the method needed for updating the identity.
    */
-  update(method: string, identifier: string, options: UpdateOptions) {
+  public update(method: string, identifier: string, request: CrudRequest) {
+    //TODO return type
     const url = new URL(this.updateUrl);
     url.searchParams.append('method', method);
     return fetch(url, {
@@ -92,7 +92,7 @@ export class Registrar {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ ...options, identifier }),
+      body: JSON.stringify({ identifier, ...request }),
     }).then((result) => result.json());
   }
 
@@ -104,7 +104,8 @@ export class Registrar {
    * @param identifier The identifier (did).
    * @param options Options matching the method needed for deactivating the identity.
    */
-  deactivate(method: string, identifier: string, options: DeactivateOptions) {
+  public deactivate(method: string, identifier: string, request: CrudRequest) {
+    //TODO return type
     const url = new URL(this.deactivateUrl);
     url.searchParams.append('method', method);
     return fetch(url, {
@@ -113,7 +114,7 @@ export class Registrar {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ ...options, identifier }),
+      body: JSON.stringify({ identifier, ...request }),
     }).then((result) => result.json());
   }
 }

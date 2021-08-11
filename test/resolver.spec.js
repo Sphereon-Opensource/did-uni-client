@@ -1,8 +1,7 @@
-const {Resolver} = require('../src/resolver/Resolver');
-
+const {describe, expect, it} = require('@jest/globals');
 const nock = require('nock');
-
 const config = require('../src/config');
+const {Resolver} = require('../src/resolver/Resolver');
 
 describe('setting a url', () => {
   it('should use config / environment url when no url is provided', async () => {

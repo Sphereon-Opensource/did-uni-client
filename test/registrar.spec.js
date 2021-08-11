@@ -1,8 +1,8 @@
-const {Registrar} = require('../src/registrar/Registrar');
-
+const {describe, expect, it} = require('@jest/globals');
 const nock = require('nock');
-
 const config = require('../src/config');
+const {Registrar} = require('../src/registrar/Registrar');
+const {CrudRequestBuilder} = require('../src/registrar/rest/CrudRequestBuilder');
 
 const didDocument = {
   '@context': 'https://w3id.org/did/v1',
@@ -58,65 +58,65 @@ describe('setting a url', () => {
 
 describe('create identity', () => {
   const method = 'btcr';
-  const options = {
-    jobId: '6d85bcd0-2ea3-4288-ab00-15afadd8a156',
-    options: {chain: 'TESTNET'},
-    secret: {seed: '72WGp7NgFR1Oqdi8zlt7jQQ434XR0cNQ'},
-    didDocument
-  };
+  const request = new CrudRequestBuilder()
+    .withJobId('6d85bcd0-2ea3-4288-ab00-15afadd8a156')
+    .withDidDocument(didDocument)
+    .withOptions({chain: 'TESTNET'})
+    .withSecret({seed: '72WGp7NgFR1Oqdi8zlt7jQQ434XR0cNQ'})
+    .build();
 
   nock(config.registrarUrlCreate)
-    .post(`?method=${method}`, options)
+    .post(`?method=${method}`, {...request})
     .reply(200, {jobId: '6d85bcd0-2ea3-4288-ab00-15afadd8a156'});
 
-  it('should return identity creation job when using constructor', async () => {
-    const registrar = new Registrar(config.registrarUrlCreate);
-    const job = await registrar.create(method, options);
+  it('should return identity creation job', async () => {
+    const registrar = new Registrar();
+    const job = await registrar.create(method, request);
 
-    expect(job.jobId).toEqual(options.jobId);
+    expect(job.jobId).toEqual(request.jobId);
   });
 });
 
 describe('update identity', () => {
   const method = 'btcr';
   const identifier = 'did:btcr:xz35-jznz-q6mr-7q6';
-  const options = {
-    jobId: '6d85bcd0-2ea3-4288-ab00-15afadd8a156',
-    options: {chain: 'TESTNET'},
-    secret: {token: 'ey...'},
-    didDocument
-  };
+  const request = new CrudRequestBuilder()
+    .withJobId('6d85bcd0-2ea3-4288-ab00-15afadd8a156')
+    .withDidDocument(didDocument)
+    .withOptions({chain: 'TESTNET'})
+    .withSecret({seed: '72WGp7NgFR1Oqdi8zlt7jQQ434XR0cNQ'})
+    .build();
 
   nock(config.registrarUrlUpdate)
-    .post(`?method=${method}`, { ...options, identifier })
+    .post(`?method=${method}`, {identifier, ...request})
     .reply(200, {jobId: '6d85bcd0-2ea3-4288-ab00-15afadd8a156'});
 
   it('should return identity creation job', async () => {
     const registrar = new Registrar();
-    const job = await registrar.update(method, identifier, options);
+    const job = await registrar.update(method, identifier, request);
 
-    expect(job.jobId).toEqual(options.jobId);
+    expect(job.jobId).toEqual(request.jobId);
   });
 });
 
 describe('deactivate identity', () => {
   const method = 'btcr';
   const identifier = 'did:btcr:xz35-jznz-q6mr-7q6';
-  const options = {
-    jobId: '6d85bcd0-2ea3-4288-ab00-15afadd8a156',
-    options: {chain: 'TESTNET'},
-    secret: {token: 'ey...'},
-    didDocument
-  };
+  const request = new CrudRequestBuilder()
+    .withJobId('6d85bcd0-2ea3-4288-ab00-15afadd8a156')
+    .withDidDocument(didDocument)
+    .withOptions({chain: 'TESTNET'})
+    .withSecret({seed: '72WGp7NgFR1Oqdi8zlt7jQQ434XR0cNQ'})
+    .build();
 
   nock(config.registrarUrlDeactivate)
-    .post(`?method=${method}`, { ...options, identifier })
+    .post(`?method=${method}`, {identifier, ...request})
     .reply(200, {jobId: '6d85bcd0-2ea3-4288-ab00-15afadd8a156'});
 
   it('should return identity creation job', async () => {
     const registrar = new Registrar();
-    const job = await registrar.deactivate(method, identifier, options);
+    const job = await registrar.deactivate(method, identifier, request);
 
-    expect(job.jobId).toEqual(options.jobId);
+    expect(job.jobId).toEqual(request.jobId);
   });
 });

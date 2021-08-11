@@ -79,7 +79,7 @@ describe('create identity', () => {
 
 describe('update identity', () => {
   const method = 'btcr';
-  const identifier = 'did:btcr:xz35-jznz-q6mr-7q6';
+  const did = 'did:btcr:xz35-jznz-q6mr-7q6';
   const request = new CrudRequestBuilder()
     .withJobId('6d85bcd0-2ea3-4288-ab00-15afadd8a156')
     .withDidDocument(didDocument)
@@ -88,12 +88,12 @@ describe('update identity', () => {
     .build();
 
   nock(config.registrarUrlUpdate)
-    .post(`?method=${method}`, {identifier, ...request})
+    .post(`?method=${method}`, {did, ...request})
     .reply(200, {jobId: '6d85bcd0-2ea3-4288-ab00-15afadd8a156'});
 
   it('should return identity creation job', async () => {
     const registrar = new Registrar();
-    const job = await registrar.update(method, identifier, request);
+    const job = await registrar.update(method, did, request);
 
     expect(job.jobId).toEqual(request.jobId);
   });
@@ -101,7 +101,7 @@ describe('update identity', () => {
 
 describe('deactivate identity', () => {
   const method = 'btcr';
-  const identifier = 'did:btcr:xz35-jznz-q6mr-7q6';
+  const did = 'did:btcr:xz35-jznz-q6mr-7q6';
   const request = new CrudRequestBuilder()
     .withJobId('6d85bcd0-2ea3-4288-ab00-15afadd8a156')
     .withDidDocument(didDocument)
@@ -110,12 +110,12 @@ describe('deactivate identity', () => {
     .build();
 
   nock(config.registrarUrlDeactivate)
-    .post(`?method=${method}`, {identifier, ...request})
+    .post(`?method=${method}`, {did, ...request})
     .reply(200, {jobId: '6d85bcd0-2ea3-4288-ab00-15afadd8a156'});
 
   it('should return identity creation job', async () => {
     const registrar = new Registrar();
-    const job = await registrar.deactivate(method, identifier, request);
+    const job = await registrar.deactivate(method, did, request);
 
     expect(job.jobId).toEqual(request.jobId);
   });

@@ -28,14 +28,14 @@ export class Resolver {
   }
 
   /**
-   * Resolves a given identifier to did document.
+   * Resolves a given did to did document.
    *
-   * @param identifier The identifier (did).
+   * @param did The identifier (did).
    * returns did resolution result.
    */
-  public resolve(identifier: string): DIDResolutionResult {
-    const parsedIdentifier = parse(identifier);
-    if (parsedIdentifier === null) {
+  public resolve(did: string): DIDResolutionResult {
+    const parsedDid = parse(did);
+    if (parsedDid === null) {
       return {
         didDocument: null,
         didDocumentMetadata: {},
@@ -43,7 +43,7 @@ export class Resolver {
       };
     }
 
-    const url = new URL(`${this.resolveUrl}/${parsedIdentifier.did}`);
+    const url = new URL(`${this.resolveUrl}/${parsedDid.did}`);
     return fetch(url).then((result) => {
       return result.json();
     });

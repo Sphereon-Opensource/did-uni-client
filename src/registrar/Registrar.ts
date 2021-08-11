@@ -55,7 +55,6 @@ export class Registrar {
    * Creates a identity for a specific method.
    *
    * @param method The requested DID method for the operation.
-   * @param identifier The identifier (did).
    * @param request Request matching the method needed for creating the identity.
    */
   public create(method: string, request: CrudRequest) {
@@ -76,10 +75,10 @@ export class Registrar {
    * Updates a identity for a specific method.
    *
    * @param method The requested DID method for the operation.
-   * @param identifier The identifier (did).
+   * @param did The identifier (did).
    * @param request Request matching the method needed for updating the identity.
    */
-  public update(method: string, identifier: string, request: CrudRequest) {
+  public update(method: string, did: string, request: CrudRequest) {
     const url = new URL(this.updateUrl);
     url.searchParams.append('method', method);
     return fetch(url, {
@@ -88,7 +87,7 @@ export class Registrar {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ identifier, ...request }),
+      body: JSON.stringify({ did, ...request }),
     }).then((result) => result.json());
   }
 
@@ -96,10 +95,10 @@ export class Registrar {
    * Deactivates a identity for a specific method.
    *
    * @param method The requested DID method for the operation.
-   * @param identifier The identifier (did).
+   * @param did The identifier (did).
    * @param request Request matching the method needed for deactivating the identity.
    */
-  public deactivate(method: string, identifier: string, request: CrudRequest) {
+  public deactivate(method: string, did: string, request: CrudRequest) {
     const url = new URL(this.deactivateUrl);
     url.searchParams.append('method', method);
     return fetch(url, {
@@ -108,7 +107,7 @@ export class Registrar {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ identifier, ...request }),
+      body: JSON.stringify({ did, ...request }),
     }).then((result) => result.json());
   }
 }

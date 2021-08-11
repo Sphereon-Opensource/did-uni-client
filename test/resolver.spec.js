@@ -17,24 +17,24 @@ describe('setting a url', () => {
   });
 });
 
-describe('identifier resolving', () => {
-  const identifier = 'did:btcr:xz35-jznz-q6mr-7q6';
+describe('did resolving', () => {
+  const did = 'did:btcr:xz35-jznz-q6mr-7q6';
 
   nock(config.resolverUrlResolve)
-    .get(`/${identifier}`)
+    .get(`/${did}`)
     .reply(200, {
         didResolutionMetadata: {},
-        didDocument: {id: identifier},
+        didDocument: {id: did},
         didDocumentMetadata: {}}
       );
 
-  it('should resolve identifier to did document', async () => {
+  it('should resolve did to did document', async () => {
     const resolver = new Resolver();
-    const didResolutionResult = await resolver.resolve(identifier);
-    expect(didResolutionResult.didDocument.id).toEqual(identifier);
+    const didResolutionResult = await resolver.resolve(did);
+    expect(didResolutionResult.didDocument.id).toEqual(did);
   });
 
-  it('should result in didResolutionMetadata with error when providing invalid identifier', async () => {
+  it('should result in didResolutionMetadata with error when providing invalid did', async () => {
     const resolver = new Resolver();
     const didResolutionResult = await resolver.resolve('abcdefg123456789');
     expect(didResolutionResult.didResolutionMetadata.error).toEqual('invalidDid');

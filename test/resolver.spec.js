@@ -39,6 +39,12 @@ describe('setting a url', () => {
     resolver.setResolveUrl(otherResolver);
     expect(resolver.resolveUrl).toEqual(otherResolver);
   });
+
+  it('should use given base url when provided by setter', async () => {
+    const otherResolver = 'https://other.resolver.io/1.0/identifiers';
+    const resolver = new Resolver().setBaseURL('https://other.resolver.io');
+    expect(resolver.resolveUrl).toEqual(otherResolver);
+  });
 });
 
 describe('did resolving', () => {

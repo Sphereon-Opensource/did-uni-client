@@ -32,29 +32,35 @@ const did = 'did:btcr:xz35-jznz-q6mr-7q6';
 
 describe('setting a url', () => {
   it('should use config / environment url when no url is provided', async () => {
-    const resolver = new Registrar();
-    expect(resolver.createUrl).toEqual(config.registrarUrlCreate);
+    const registrar = new Registrar();
+    expect(registrar.createUrl).toEqual(config.registrarUrlCreate);
   });
 
   it('should use given create url when provided by setter', async () => {
-    const otherResolver = 'https://other.registrar.io/1.0/create';
+    const otherRegistrar = 'https://other.registrar.io/1.0/create';
     const registrar = new Registrar();
-    registrar.setCreateURL(otherResolver);
-    expect(registrar.createUrl).toEqual(otherResolver);
+    registrar.setCreateURL(otherRegistrar);
+    expect(registrar.createUrl).toEqual(otherRegistrar);
   });
 
   it('should use given update url when provided by setter', async () => {
-    const otherResolver = 'https://other.registrar.io/1.0/update';
+    const otherRegistrar = 'https://other.registrar.io/1.0/update';
     const registrar = new Registrar();
-    registrar.setUpdateURL(otherResolver);
-    expect(registrar.updateUrl).toEqual(otherResolver);
+    registrar.setUpdateURL(otherRegistrar);
+    expect(registrar.updateUrl).toEqual(otherRegistrar);
   });
 
   it('should use given deactivate url when provided by setter', async () => {
-    const otherResolver = 'https://other.registrar.io/1.0/deactivate';
+    const otherRegistrar = 'https://other.registrar.io/1.0/deactivate';
     const registrar = new Registrar();
-    registrar.setDeactivateURL(otherResolver);
-    expect(registrar.deactivateUrl).toEqual(otherResolver);
+    registrar.setDeactivateURL(otherRegistrar);
+    expect(registrar.deactivateUrl).toEqual(otherRegistrar);
+  });
+
+  it('should use given base url when provided by setter', async () => {
+    const otherRegistrar = 'https://other.registrar.io/1.0/create';
+    const registrar = new Registrar().setBaseURL('https://other.registrar.io');
+    expect(registrar.createUrl).toEqual(otherRegistrar);
   });
 });
 
@@ -98,6 +104,13 @@ describe('update identity', () => {
 
     expect(job.jobId).toEqual(request.jobId);
   });
+
+  it('should return didResolutionMetadata with invalidDid when providing invalid did', async () => {
+    const registrar = new Registrar();
+    const job = await registrar.update('abcdefg123456789', request);
+
+    expect(job.didResolutionMetadata.error).toEqual('invalidDid');
+  });
 });
 
 describe('deactivate identity', () => {
@@ -117,5 +130,12 @@ describe('deactivate identity', () => {
     const job = await registrar.deactivate(did, request);
 
     expect(job.jobId).toEqual(request.jobId);
+  });
+
+  it('should return didResolutionMetadata with invalidDid when providing invalid did', async () => {
+    const registrar = new Registrar();
+    const job = await registrar.deactivate('abcdefg123456789', request);
+
+    expect(job.didResolutionMetadata.error).toEqual('invalidDid');
   });
 });

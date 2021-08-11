@@ -2,6 +2,8 @@
 
 import { DIDResolutionResult, parse } from 'did-resolver';
 
+import {Constants} from '../registrar/Constants';
+
 const fetch = require('cross-fetch');
 
 const config = require('../config');
@@ -59,7 +61,7 @@ export class Resolver {
       return {
         didDocument: null,
         didDocumentMetadata: {},
-        didResolutionMetadata: { error: 'invalidDid' },
+        didResolutionMetadata: { error: Constants.INVALID_DID },
       };
     }
 

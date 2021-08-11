@@ -67,6 +67,6 @@ describe('did resolving', () => {
   it('should result in didResolutionMetadata with error when providing invalid did', async () => {
     const resolver = new Resolver();
     const didResolutionResult = await resolver.resolve('abcdefg123456789');
-    expect(didResolutionResult.didResolutionMetadata.error).toEqual('invalidDid');
+    expect(didResolutionResult.didResolutionMetadata.error).toEqual(Constants.INVALID_DID);
   });
 });

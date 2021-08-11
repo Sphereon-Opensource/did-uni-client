@@ -23,8 +23,10 @@ export class Resolver {
    *
    * @param url The base URL for the registrar.
    */
-  public setBaseURL(url: string): void {
+  public setBaseURL(url: string): this {
     this.resolveUrl = `${url}${new URL(this.resolveUrl).pathname}`;
+
+    return this;
   }
 
   /**
@@ -32,8 +34,10 @@ export class Resolver {
    *
    * @param url The URL for the resolve endpoint.
    */
-  public setResolveUrl(url: string): void {
+  public setResolveUrl(url: string): this {
     this.resolveUrl = url;
+
+    return this;
   }
 
   /**

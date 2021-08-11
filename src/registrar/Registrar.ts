@@ -31,10 +31,12 @@ export class Registrar {
    *
    * @param url The base URL for the registrar.
    */
-  public setBaseURL(url: string): void {
+  public setBaseURL(url: string): this {
     this.createUrl = `${url}${new URL(this.createUrl).pathname}`;
     this.updateUrl = `${url}${new URL(this.updateUrl).pathname}`;
     this.deactivateUrl = `${url}${new URL(this.deactivateUrl).pathname}`;
+
+    return this;
   }
 
   /**
@@ -42,8 +44,10 @@ export class Registrar {
    *
    * @param url The create URL for the registrar.
    */
-  public setCreateURL(url: string): void {
+  public setCreateURL(url: string): this {
     this.createUrl = url;
+
+    return this;
   }
 
   /**
@@ -51,8 +55,10 @@ export class Registrar {
    *
    * @param url The update URL for the registrar.
    */
-  public setUpdateURL(url: string): void {
+  public setUpdateURL(url: string): this {
     this.updateUrl = url;
+
+    return this;
   }
 
   /**
@@ -60,8 +66,10 @@ export class Registrar {
    *
    * @param url The deactivate URL for the registrar.
    */
-  public setDeactivateURL(url: string): void {
+  public setDeactivateURL(url: string): this {
     this.deactivateUrl = url;
+
+    return this;
   }
 
   /**

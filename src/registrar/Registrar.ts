@@ -95,7 +95,6 @@ export class Registrar {
   /**
    * Updates a identity for a specific method.
    *
-   * @param method The requested DID method for the operation.
    * @param did The identifier (did).
    * @param request Request matching the method needed for updating the identity.
    */
@@ -122,7 +121,6 @@ export class Registrar {
   /**
    * Deactivates a identity for a specific method.
    *
-   * @param method The requested DID method for the operation.
    * @param did The identifier (did).
    * @param request Request matching the method needed for deactivating the identity.
    */

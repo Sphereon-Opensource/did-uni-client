@@ -9,10 +9,10 @@ The did-uni-client is a library to call a universal registrar (e.g. https://unir
 And to call a universal resolver (e.g https://dev.uniresolver.io) to resolve decentralized identifiers to did documents. It is written in Typescript and can be compiled to any target JavaScript version.
 
 ### Supported actions
- * Creating a decentralized identifier (DID)
- * Updating a decentralized identifier (DID)
- * Deactivating a decentralized identifier (DID)
- * Resolving a decentralized identifier (DID)
+ * Creating a decentralized identifier (DID).
+ * Updating a decentralized identifier (DID).
+ * Deactivating a decentralized identifier (DID).
+ * Resolving a decentralized identifier (DID).
 
 #### Examples
 
@@ -79,16 +79,16 @@ resolver.resolve(did)
 
 ### Configuration
 To use the library, URL's needs to be available for universal registrar endpoints and universal resolver endpoints. There are three options to configure the URL's.
-The library will first check if there is an environment variable, if this is not present it will look in the config file. It is also possible to overwrite the default URL's by using one of the url setters.
+The library will first check if there is an environment variable, if this is not present it will look in the config file. It is also possible to overwrite the default URL's by using one of the URL setters.
 
 ##### Environment variable
 ###### Registrar
-REGISTRAR_URL_CREATE - Defines the URL for a universal registrar create endpoint (e.g https://uniregistrar.io/1.0/create)  
-REGISTRAR_URL_UPDATE - Defines the URL for a universal registrar update endpoint (https://uniregistrar.io/1.0/update)  
-REGISTRAR_URL_DEACTIVATE - Defines the URL for a universal registrar deactivate endpoint (https://uniregistrar.io/1.0/deactivate)  
+REGISTRAR_URL_CREATE - Defines the URL for a create endpoint (e.g https://uniregistrar.io/1.0/create).  
+REGISTRAR_URL_UPDATE - Defines the URL for a update endpoint (https://uniregistrar.io/1.0/update).  
+REGISTRAR_URL_DEACTIVATE - Defines the URL for a deactivate endpoint (https://uniregistrar.io/1.0/deactivate).  
 
 ###### Resolver
-RESOLVER_URL_RESOLVE - Defines the URL for a universal resolve resolve endpoint (https://dev.uniresolver.io/1.0/identifiers)  
+RESOLVER_URL_RESOLVE - Defines the URL for a resolve endpoint (https://dev.uniresolver.io/1.0/identifiers).  
 
 ##### Config file
 A config file is available here 'src/config.ts'.
@@ -113,5 +113,5 @@ yarn test
 ### Utility scripts
 There are several other utility scripts that help with development.
 
-* `yarn fix` - runs `eslint --fix` as well as `prettier` to fix code style
-* `yarn cov` - generates code coverage report
+* `yarn fix` - runs `eslint --fix` as well as `prettier` to fix code style.
+* `yarn cov` - generates code coverage report.

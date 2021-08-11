@@ -1,0 +1,47 @@
+{
+  "name": "@sphereon/did-uni-client",
+  "version": "0.1.0",
+  "description": "A Typescript library to create, update, deactivate and resolve DID documents using a Universal Registrar and Universal Resolver",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "license": "Apache-2.0",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "run-s build test:* cov",
+    "test:lint": "eslint . --ext .ts",
+    "test:prettier": "prettier \"{src, test}/**/*.ts\" --list-different",
+    "test:unit": "jest",
+    "fix": "run-s fix:*",
+    "fix:prettier": "prettier \"{src, test}/**/*.ts\" --write",
+    "fix:lint": "eslint . --ext .ts --fix",
+    "cov": "jest --coverage"
+  },
+  "files": [
+    "/dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "dependencies": {
+    "cross-fetch": "^3.1.4",
+    "did-resolver": "^3.1.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.29.0",
+    "@typescript-eslint/parser": "^4.29.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-import": "^2.23.4",
+    "jest": "^27.0.6",
+    "@jest/globals": "^27.0.6",
+    "nock": "^13.1.1",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.3.2",
+    "ts-jest": "^27.0.4",
+    "typescript": "^4.3.5"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 120
+  }
+}

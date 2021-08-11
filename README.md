@@ -78,8 +78,8 @@ resolver.resolve(identifier)
  ```
 
 ### Configuration
-To use the library, URL's needs to be available for universal registrar endpoints and universal resolver endpoints. There are two options to configure the URL's.
-The library will first check if there is an environment variable, if this is not present it will look in the config file.
+To use the library, URL's needs to be available for universal registrar endpoints and universal resolver endpoints. There are three options to configure the URL's.
+The library will first check if there is an environment variable, if this is not present it will look in the config file. It is also possible to overwrite the default URL's by using one of the url setters.
 
 ##### Environment variable
 ###### Registrar

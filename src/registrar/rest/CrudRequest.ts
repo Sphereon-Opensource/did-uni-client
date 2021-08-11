@@ -8,7 +8,7 @@ export class CrudRequest {
   public options: Record<string, unknown>;
   public secret: Record<string, unknown>;
 
-  constructor(request: CrudRequest) {
+  protected constructor(request: CrudRequest) {
     Object.assign(this, request);
   }
 }

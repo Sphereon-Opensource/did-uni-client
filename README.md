@@ -35,7 +35,6 @@ registrar.create(method, request)
  ```typescript
 const {Registrar, CrudRequestBuilder} = require('did-uni-client');
 
-const method = 'btcr';
 const did = 'did:btcr:xz35-jznz-q6mr-7q6';
 const request = new CrudRequestBuilder()
     .withOptions({chain: 'TESTNET'})
@@ -43,7 +42,7 @@ const request = new CrudRequestBuilder()
     .build();
 const registrar = new Registrar();
 
-registrar.update(method, did, request)
+registrar.update(did, request)
   .then(result => 'success')
   .catch(error => 'failed');
  ```
@@ -52,7 +51,6 @@ registrar.update(method, did, request)
  ```typescript
 const {Registrar, CrudRequestBuilder} = require('did-uni-client');
 
-const method = 'btcr';
 const did = 'did:btcr:xz35-jznz-q6mr-7q6';
 const request = new CrudRequestBuilder()
     .withOptions({chain: 'TESTNET'})
@@ -60,7 +58,7 @@ const request = new CrudRequestBuilder()
     .build();
 const registrar = new Registrar();
 
-registrar.deactivate(method, did, request)
+registrar.deactivate(did, request)
   .then(result => 'success')
   .catch(error => 'failed');
  ```

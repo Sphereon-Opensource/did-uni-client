@@ -24,8 +24,8 @@ const method = 'btcr';
 const request = new CrudRequestBuilder()
     .withOptions({chain: 'TESTNET'})
     .build();
-
 const registrar = new Registrar();
+
 registrar.create(method, request) 
   .then(result => 'success')
   .catch(error => 'failed');
@@ -41,8 +41,8 @@ const request = new CrudRequestBuilder()
     .withOptions({chain: 'TESTNET'})
     .withSecret({token:"ey..."})
     .build();
-
 const registrar = new Registrar();
+
 registrar.update(method, identifier, request)
   .then(result => 'success')
   .catch(error => 'failed');
@@ -58,8 +58,8 @@ const request = new CrudRequestBuilder()
     .withOptions({chain: 'TESTNET'})
     .withSecret({token:"ey..."})
     .build();
-
 const registrar = new Registrar();
+
 registrar.deactivate(method, identifier, request)
   .then(result => 'success')
   .catch(error => 'failed');
@@ -67,9 +67,12 @@ registrar.deactivate(method, identifier, request)
 
 ##### DID resolution
  ```typescript
-const {resolve} = require('did-uni-client');
+const {Resolver} = require('did-uni-client');
 
-resolve('did:btcr:xz35-jznz-q6mr-7q6')
+const identifier = 'did:btcr:xz35-jznz-q6mr-7q6';
+const resolver = new Resolver();
+
+resolver.resolve(identifier)
   .then(result => 'success')
   .catch(error => 'failed');
  ```

@@ -136,6 +136,6 @@ describe('deactivate identity', () => {
     const registrar = new Registrar();
     const job = await registrar.deactivate('abcdefg123456789', request);
 
-    expect(job.didResolutionMetadata.error).toEqual('invalidDid');
+    expect(job.didResolutionMetadata.error).toEqual(Constants.INVALID_DID);
   });
 });

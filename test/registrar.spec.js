@@ -6,7 +6,7 @@ const {CrudRequestBuilder} = require('../src/registrar/rest/CrudRequestBuilder')
 
 const didDocument = {
   '@context': 'https://w3id.org/did/v1',
-  id: 'dd4160e2-f6aa-11eb-9a03-0242ac130003',
+  id: 'did:btcr:xz35-jznz-q6mr-7q6',
   publicKey: [{
     id: 'did:btcr:xz35-jznz-q6mr-7q6#keys-1',
     type: 'RsaVerificationKey2018',

@@ -3,6 +3,30 @@ const nock = require('nock');
 const config = require('../src/config');
 const {Resolver} = require('../src/resolver/Resolver');
 
+const didDocument = {
+  '@context': 'https://w3id.org/did/v1',
+  id: 'did:btcr:xz35-jznz-q6mr-7q6',
+  publicKey: [{
+    id: 'did:btcr:xz35-jznz-q6mr-7q6#keys-1',
+    type: 'RsaVerificationKey2018',
+    owner: 'did:btcr:xz35-jznz-q6mr-7q6',
+    publicKeyPem: '-----BEGIN PUBLIC KEY...END PUBLIC KEY-----\r\n'
+  }],
+  service: [{
+    id: 'did:btcr:xz35-jznz-q6mr-7q6#agent',
+    type: 'AgentService',
+    serviceEndpoint: 'https://agent.example.com/8377464'
+  }, {
+    id: 'did:btcr:xz35-jznz-q6mr-7q6#messages',
+    type: 'MessagingService',
+    serviceEndpoint: 'https://example.com/messages/8377464'
+  }],
+  authentication: [{
+    type: 'RsaSignatureAuthentication2018',
+    publicKey: 'did:btcr:xz35-jznz-q6mr-7q6#keys-1'
+  }],
+};
+
 describe('setting a url', () => {
   it('should use config / environment url when no url is provided', async () => {
     const resolver = new Resolver();
@@ -24,7 +48,7 @@ describe('did resolving', () => {
     .get(`/${did}`)
     .reply(200, {
         didResolutionMetadata: {},
-        didDocument: {id: did},
+        didDocument,
         didDocumentMetadata: {}}
       );
 

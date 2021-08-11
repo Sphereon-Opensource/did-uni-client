@@ -9,7 +9,7 @@ export class CrudRequestBuilder implements Partial<ICrudRequest> {
   jobId?: string;
   didDocument?: DIDDocument;
   options?: Record<string, unknown>;
-  secret?: Record<string, unknown>;
+  secret?: Record<string, unknown> | string;
 
   withJobId(value: string): this & Pick<ICrudRequest, 'jobId'> {
     return Object.assign(this, { jobId: value });
@@ -23,7 +23,7 @@ export class CrudRequestBuilder implements Partial<ICrudRequest> {
     return Object.assign(this, { options: value });
   }
 
-  withSecret(value: Record<string, unknown>): this & Pick<ICrudRequest, 'secret'> {
+  withSecret(value: Record<string, unknown> | string): this & Pick<ICrudRequest, 'secret'> {
     return Object.assign(this, { secret: value });
   }
 

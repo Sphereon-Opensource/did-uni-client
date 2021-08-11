@@ -22,7 +22,7 @@ export class CrudRequestBuilder extends CrudRequest implements Partial<ICrudRequ
     return Object.assign(this, { secret: value });
   }
 
-  build(this: CrudRequest) {
+  build() {
     return new CrudRequest(this);
   }
 }

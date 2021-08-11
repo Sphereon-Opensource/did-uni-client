@@ -4,6 +4,8 @@
   <br>
 </h1>
 
+[![CI](https://github.com/Sphereon-Opensource/did-uni-client/actions/workflows/main.yml/badge.svg)](https://github.com/Sphereon-Opensource/did-uni-client/actions/workflows/main.yml)
+
 ### Did-uni-client
 The did-uni-client is a library to call a universal registrar (e.g. https://uniregistrar.io) to create, update and deactivate decentralized identifiers. 
 And to call a universal resolver (e.g. https://dev.uniresolver.io) to resolve decentralized identifiers to did documents. It is written in Typescript and can be compiled to any target JavaScript version.

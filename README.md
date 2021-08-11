@@ -36,14 +36,14 @@ registrar.create(method, request)
 const {Registrar, CrudRequestBuilder} = require('did-uni-client');
 
 const method = 'btcr';
-const identifier = 'did:btcr:xz35-jznz-q6mr-7q6';
+const did = 'did:btcr:xz35-jznz-q6mr-7q6';
 const request = new CrudRequestBuilder()
     .withOptions({chain: 'TESTNET'})
     .withSecret({token:"ey..."})
     .build();
 const registrar = new Registrar();
 
-registrar.update(method, identifier, request)
+registrar.update(method, did, request)
   .then(result => 'success')
   .catch(error => 'failed');
  ```
@@ -53,14 +53,14 @@ registrar.update(method, identifier, request)
 const {Registrar, CrudRequestBuilder} = require('did-uni-client');
 
 const method = 'btcr';
-const identifier = 'did:btcr:xz35-jznz-q6mr-7q6';
+const did = 'did:btcr:xz35-jznz-q6mr-7q6';
 const request = new CrudRequestBuilder()
     .withOptions({chain: 'TESTNET'})
     .withSecret({token:"ey..."})
     .build();
 const registrar = new Registrar();
 
-registrar.deactivate(method, identifier, request)
+registrar.deactivate(method, did, request)
   .then(result => 'success')
   .catch(error => 'failed');
  ```
@@ -69,10 +69,10 @@ registrar.deactivate(method, identifier, request)
  ```typescript
 const {Resolver} = require('did-uni-client');
 
-const identifier = 'did:btcr:xz35-jznz-q6mr-7q6';
+const did = 'did:btcr:xz35-jznz-q6mr-7q6';
 const resolver = new Resolver();
 
-resolver.resolve(identifier)
+resolver.resolve(did)
   .then(result => 'success')
   .catch(error => 'failed');
  ```

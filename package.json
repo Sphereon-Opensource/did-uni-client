@@ -1,6 +1,6 @@
 {
   "name": "did-uni-client",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A Typescript library to create, update, deactivate and resolve DID documents using the Universal Registrar and Universal Resolver",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",

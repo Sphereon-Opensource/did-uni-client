@@ -41,7 +41,7 @@ describe('setting a url', () => {
     expect(registrar.createUrl).toEqual(otherResolver);
   });
 
-  it('should use given create url when provided by setter', async () => {
+  it('should use given update url when provided by setter', async () => {
     const otherResolver = 'https://other.registrar.io/1.0/update';
     const registrar = new Registrar();
     registrar.setUpdateURL(otherResolver);

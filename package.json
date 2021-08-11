@@ -7,14 +7,14 @@
   "license": "Apache-2.0",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "run-s build test:*",
+    "test": "run-s build test:* cov",
     "test:lint": "eslint . --ext .ts",
     "test:prettier": "prettier \"{src, test}/**/*.ts\" --list-different",
     "test:unit": "jest",
-    "test:cov": "jest --coverage",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"{src, test}/**/*.ts\" --write",
-    "fix:lint": "eslint . --ext .ts --fix"
+    "fix:lint": "eslint . --ext .ts --fix",
+    "cov": "jest --coverage"
   },
   "files": [
     "/dist",

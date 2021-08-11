@@ -2,6 +2,7 @@
 
 import { parse } from 'did-resolver';
 
+import { Constants } from './Constants';
 import { CrudRequest } from './rest/CrudRequest';
 
 const fetch = require('cross-fetch');
@@ -102,7 +103,7 @@ export class Registrar {
     const parsedDid = parse(did);
     if (parsedDid === null) {
       return {
-        didResolutionMetadata: { error: 'invalidDid' },
+        didResolutionMetadata: { error: Constants.INVALID_DID },
       };
     }
 
@@ -129,7 +130,7 @@ export class Registrar {
     const parsedDid = parse(did);
     if (parsedDid === null) {
       return {
-        didResolutionMetadata: { error: 'invalidDid' },
+        didResolutionMetadata: { error: Constants.INVALID_DID },
       };
     }
 

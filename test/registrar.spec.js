@@ -3,6 +3,7 @@ const nock = require('nock');
 const config = require('../src/config');
 const {Registrar} = require('../src/registrar/Registrar');
 const {CrudRequestBuilder} = require('../src/registrar/rest/CrudRequestBuilder');
+const {Constants} = require('../src/registrar/Constants');
 const {parse} = require('did-resolver');
 
 const didDocument = {
@@ -109,7 +110,7 @@ describe('update identity', () => {
     const registrar = new Registrar();
     const job = await registrar.update('abcdefg123456789', request);
 
-    expect(job.didResolutionMetadata.error).toEqual('invalidDid');
+    expect(job.didResolutionMetadata.error).toEqual(Constants.INVALID_DID);
   });
 });
 

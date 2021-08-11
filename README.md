@@ -103,6 +103,7 @@ The test command runs:
 * `eslint`
 * `prettier`
 * `unit`
+* `coverage`
 
 You can also run only a single section of these tests, using for example `yarn test:unit`.
 ```shell

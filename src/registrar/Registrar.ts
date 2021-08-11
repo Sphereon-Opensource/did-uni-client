@@ -60,8 +60,7 @@ export class Registrar {
    * @param request Request matching the method needed for creating the identity.
    */
   public create(method: string, request: CrudRequest) {
-    const url = new URL(this.createUrl);
-    url.searchParams.append('method', method);
+    const url = this.createURL(this.createUrl, method);
 
     return fetch(url, {
       method: 'post',
@@ -84,12 +83,12 @@ export class Registrar {
     const parsedDid = parse(did);
     if (parsedDid === null) {
       return {
-        did: { error: 'invalidDid' },
+        didResolutionMetadata: { error: 'invalidDid' },
       };
     }
 
-    const url = new URL(this.updateUrl);
-    url.searchParams.append('method', parsedDid.method);
+    const url = this.createURL(this.updateUrl, parsedDid.method);
+
     return fetch(url, {
       method: 'post',
       headers: {
@@ -111,12 +110,12 @@ export class Registrar {
     const parsedDid = parse(did);
     if (parsedDid === null) {
       return {
-        did: { error: 'invalidDid' },
+        didResolutionMetadata: { error: 'invalidDid' },
       };
     }
 
-    const url = new URL(this.deactivateUrl);
-    url.searchParams.append('method', parsedDid.method);
+    const url = this.createURL(this.deactivateUrl, parsedDid.method);
+
     return fetch(url, {
       method: 'post',
       headers: {
@@ -125,6 +124,13 @@ export class Registrar {
       },
       body: JSON.stringify({ identifier: parsedDid.did, ...request }),
     }).then((result) => result.json());
+  }
+
+  private createURL(url: string, method: string): URL {
+    const newUrl = new URL(url);
+    newUrl.searchParams.append('method', method);
+
+    return newUrl;
   }
 
 }

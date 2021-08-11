@@ -20,7 +20,6 @@ export class Resolver {
    * Sets the URL for the resolve endpoint.
    *
    * @param url The URL for the resolve endpoint.
-   * @example 'https://uniresolver.io/1.0/identifiers'.
    */
   public setResolveUrl(url: string): void {
     this.resolveUrl = url;

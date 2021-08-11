@@ -51,16 +51,14 @@ export class Registrar {
     this.deactivateUrl = url;
   }
 
-  //TODO update method
   /**
    * Creates a identity for a specific method.
    *
-   * @param method The identifier (did).
+   * @param method The requested DID method for the operation.
    * @param identifier The identifier (did).
-   * @param options Options matching the method needed for creating the identity.
+   * @param request Request matching the method needed for creating the identity.
    */
   public create(method: string, request: CrudRequest) {
-    //TODO return type
     const url = new URL(this.createUrl);
     url.searchParams.append('method', method);
 
@@ -74,16 +72,14 @@ export class Registrar {
     }).then((result) => result.json());
   }
 
-  //TODO update method
   /**
    * Updates a identity for a specific method.
    *
-   * @param method The identifier (did).
+   * @param method The requested DID method for the operation.
    * @param identifier The identifier (did).
-   * @param options Options matching the method needed for updating the identity.
+   * @param request Request matching the method needed for updating the identity.
    */
   public update(method: string, identifier: string, request: CrudRequest) {
-    //TODO return type
     const url = new URL(this.updateUrl);
     url.searchParams.append('method', method);
     return fetch(url, {
@@ -96,16 +92,14 @@ export class Registrar {
     }).then((result) => result.json());
   }
 
-  //TODO update method
   /**
    * Deactivates a identity for a specific method.
    *
-   * @param method .
+   * @param method The requested DID method for the operation.
    * @param identifier The identifier (did).
-   * @param options Options matching the method needed for deactivating the identity.
+   * @param request Request matching the method needed for deactivating the identity.
    */
   public deactivate(method: string, identifier: string, request: CrudRequest) {
-    //TODO return type
     const url = new URL(this.deactivateUrl);
     url.searchParams.append('method', method);
     return fetch(url, {

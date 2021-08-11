@@ -2,7 +2,7 @@
 
 import { DIDResolutionResult, parse } from 'did-resolver';
 
-import {Constants} from '../registrar/Constants';
+import { Constants } from '../Constants';
 
 const fetch = require('cross-fetch');
 

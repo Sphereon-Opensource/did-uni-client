@@ -3,7 +3,7 @@ const nock = require('nock');
 const config = require('../src/config');
 const {Registrar} = require('../src/registrar/Registrar');
 const {CrudRequestBuilder} = require('../src/registrar/rest/CrudRequestBuilder');
-const {Constants} = require('../src/registrar/Constants');
+const {Constants} = require('../src/Constants');
 const {parse} = require('did-resolver');
 
 const didDocument = {

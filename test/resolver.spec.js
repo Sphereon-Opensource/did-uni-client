@@ -2,6 +2,7 @@ const {describe, expect, it} = require('@jest/globals');
 const nock = require('nock');
 const config = require('../src/config');
 const {Resolver} = require('../src/resolver/Resolver');
+const {Constants} = require('../src/Constants');
 
 const didDocument = {
   '@context': 'https://w3id.org/did/v1',

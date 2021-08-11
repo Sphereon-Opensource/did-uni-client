@@ -2,7 +2,8 @@
 
 import { parse } from 'did-resolver';
 
-import { Constants } from './Constants';
+import { Constants } from '../Constants';
+
 import { CrudRequest } from './rest/CrudRequest';
 
 const fetch = require('cross-fetch');

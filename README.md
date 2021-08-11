@@ -6,7 +6,7 @@
 
 ### Did-uni-client
 The did-uni-client is a library to call a universal registrar (e.g. https://uniregistrar.io) to create, update and deactivate decentralized identifiers. 
-And to call a universal resolver (e.g https://dev.uniresolver.io) to resolve decentralized identifiers to did documents. It is written in Typescript and can be compiled to any target JavaScript version.
+And to call a universal resolver (e.g. https://dev.uniresolver.io) to resolve decentralized identifiers to did documents. It is written in Typescript and can be compiled to any target JavaScript version.
 
 ### Supported actions
  * Creating a decentralized identifier (DID).
@@ -83,12 +83,12 @@ The library will first check if there is an environment variable, if this is not
 
 ##### Environment variable
 ###### Registrar
-REGISTRAR_URL_CREATE - Defines the URL for a create endpoint (e.g https://uniregistrar.io/1.0/create).  
-REGISTRAR_URL_UPDATE - Defines the URL for a update endpoint (https://uniregistrar.io/1.0/update).  
-REGISTRAR_URL_DEACTIVATE - Defines the URL for a deactivate endpoint (https://uniregistrar.io/1.0/deactivate).  
+REGISTRAR_URL_CREATE - Defines the URL for a create endpoint (e.g. https://uniregistrar.io/1.0/create).  
+REGISTRAR_URL_UPDATE - Defines the URL for a update endpoint (e.g. https://uniregistrar.io/1.0/update).  
+REGISTRAR_URL_DEACTIVATE - Defines the URL for a deactivate endpoint (e.g. https://uniregistrar.io/1.0/deactivate).  
 
 ###### Resolver
-RESOLVER_URL_RESOLVE - Defines the URL for a resolve endpoint (https://dev.uniresolver.io/1.0/identifiers).  
+RESOLVER_URL_RESOLVE - Defines the URL for a resolve endpoint (e.g. https://dev.uniresolver.io/1.0/identifiers).  
 
 ##### Config file
 A config file is available here 'src/config.ts'.

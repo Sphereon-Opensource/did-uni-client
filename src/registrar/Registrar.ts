@@ -1,6 +1,6 @@
 'use strict';
 
-import {parse} from 'did-resolver';
+import { parse } from 'did-resolver';
 
 import { CrudRequest } from './rest/CrudRequest';
 
@@ -24,6 +24,17 @@ export class Registrar {
     this.createUrl = process.env.REGISTRAR_URL_CREATE || config.registrarUrlCreate;
     this.updateUrl = process.env.REGISTRAR_URL_UPDATE || config.registrarUrlUpdate;
     this.deactivateUrl = process.env.REGISTRAR_URL_DEACTIVATE || config.registrarUrlDeactivate;
+  }
+
+  /**
+   * Sets the base URL for the registrar.
+   *
+   * @param url The base URL for the registrar.
+   */
+  public setBaseURL(url: string): void {
+    this.createUrl = `${url}${new URL(this.createUrl).pathname}`;
+    this.updateUrl = `${url}${new URL(this.updateUrl).pathname}`;
+    this.deactivateUrl = `${url}${new URL(this.deactivateUrl).pathname}`;
   }
 
   /**
@@ -132,5 +143,4 @@ export class Registrar {
 
     return newUrl;
   }
-
 }

@@ -19,6 +19,15 @@ export class Resolver {
   }
 
   /**
+   * Sets the base URL for the registrar.
+   *
+   * @param url The base URL for the registrar.
+   */
+  public setBaseURL(url: string): void {
+    this.resolveUrl = `${url}${new URL(this.resolveUrl).pathname}`;
+  }
+
+  /**
    * Sets the URL for the resolve endpoint.
    *
    * @param url The URL for the resolve endpoint.

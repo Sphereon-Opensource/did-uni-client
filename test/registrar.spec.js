@@ -3,6 +3,7 @@ const nock = require('nock');
 const config = require('../src/config');
 const {Registrar} = require('../src/registrar/Registrar');
 const {CrudRequestBuilder} = require('../src/registrar/rest/CrudRequestBuilder');
+const {parse} = require('did-resolver');
 
 const didDocument = {
   '@context': 'https://w3id.org/did/v1',
@@ -27,6 +28,7 @@ const didDocument = {
     publicKey: 'did:btcr:xz35-jznz-q6mr-7q6#keys-1'
   }],
 };
+const did = 'did:btcr:xz35-jznz-q6mr-7q6';
 
 describe('setting a url', () => {
   it('should use config / environment url when no url is provided', async () => {
@@ -71,6 +73,7 @@ describe('create identity', () => {
 
   it('should return identity creation job', async () => {
     const registrar = new Registrar();
+    registrar.setBaseURL('https://uniregistrar.io');
     const job = await registrar.create(method, request);
 
     expect(job.jobId).toEqual(request.jobId);
@@ -78,8 +81,6 @@ describe('create identity', () => {
 });
 
 describe('update identity', () => {
-  const method = 'btcr';
-  const did = 'did:btcr:xz35-jznz-q6mr-7q6';
   const request = new CrudRequestBuilder()
     .withJobId('6d85bcd0-2ea3-4288-ab00-15afadd8a156')
     .withDidDocument(didDocument)
@@ -88,20 +89,18 @@ describe('update identity', () => {
     .build();
 
   nock(config.registrarUrlUpdate)
-    .post(`?method=${method}`, {did, ...request})
+    .post(`?method=${parse(did).method}`, {identifier: did, ...request})
     .reply(200, {jobId: '6d85bcd0-2ea3-4288-ab00-15afadd8a156'});
 
-  it('should return identity creation job', async () => {
+  it('should return identity update job', async () => {
     const registrar = new Registrar();
-    const job = await registrar.update(method, did, request);
+    const job = await registrar.update(did, request);
 
     expect(job.jobId).toEqual(request.jobId);
   });
 });
 
 describe('deactivate identity', () => {
-  const method = 'btcr';
-  const did = 'did:btcr:xz35-jznz-q6mr-7q6';
   const request = new CrudRequestBuilder()
     .withJobId('6d85bcd0-2ea3-4288-ab00-15afadd8a156')
     .withDidDocument(didDocument)
@@ -110,12 +109,12 @@ describe('deactivate identity', () => {
     .build();
 
   nock(config.registrarUrlDeactivate)
-    .post(`?method=${method}`, {did, ...request})
+    .post(`?method=${parse(did).method}`, {identifier: did, ...request})
     .reply(200, {jobId: '6d85bcd0-2ea3-4288-ab00-15afadd8a156'});
 
-  it('should return identity creation job', async () => {
+  it('should return identity deactivation job', async () => {
     const registrar = new Registrar();
-    const job = await registrar.deactivate(method, did, request);
+    const job = await registrar.deactivate(did, request);
 
     expect(job.jobId).toEqual(request.jobId);
   });

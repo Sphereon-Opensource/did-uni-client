@@ -34,10 +34,17 @@ export class Resolver {
    *
    * @param url The URL for the resolve endpoint.
    */
-  public setResolveUrl(url: string): this {
+  public setResolveURL(url: string): this {
     this.resolveUrl = url;
 
     return this;
+  }
+
+  /**
+   * Gets the URL for the resolve endpoint.
+   */
+  public getResolveURL(): string {
+    return this.resolveUrl;
   }
 
   /**

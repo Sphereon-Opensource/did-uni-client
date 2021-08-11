@@ -34,34 +34,33 @@ const did = 'did:btcr:xz35-jznz-q6mr-7q6';
 describe('setting a url', () => {
   it('should use config / environment url when no url is provided', async () => {
     const registrar = new Registrar();
-    expect(registrar.createUrl).toEqual(config.registrarUrlCreate);
+    expect(registrar.getCreateURL()).toEqual(config.registrarUrlCreate);
   });
 
   it('should use given create url when provided by setter', async () => {
     const otherRegistrar = 'https://other.registrar.io/1.0/create';
     const registrar = new Registrar();
     registrar.setCreateURL(otherRegistrar);
-    expect(registrar.createUrl).toEqual(otherRegistrar);
+    expect(registrar.getCreateURL()).toEqual(otherRegistrar);
   });
 
   it('should use given update url when provided by setter', async () => {
     const otherRegistrar = 'https://other.registrar.io/1.0/update';
     const registrar = new Registrar();
     registrar.setUpdateURL(otherRegistrar);
-    expect(registrar.updateUrl).toEqual(otherRegistrar);
+    expect(registrar.getUpdateURL()).toEqual(otherRegistrar);
   });
 
   it('should use given deactivate url when provided by setter', async () => {
     const otherRegistrar = 'https://other.registrar.io/1.0/deactivate';
     const registrar = new Registrar();
     registrar.setDeactivateURL(otherRegistrar);
-    expect(registrar.deactivateUrl).toEqual(otherRegistrar);
+    expect(registrar.getDeactivateURL()).toEqual(otherRegistrar);
   });
-
   it('should use given base url when provided by setter', async () => {
     const otherRegistrar = 'https://other.registrar.io/1.0/create';
     const registrar = new Registrar().setBaseURL('https://other.registrar.io');
-    expect(registrar.createUrl).toEqual(otherRegistrar);
+    expect(registrar.getCreateURL()).toEqual(otherRegistrar);
   });
 });
 

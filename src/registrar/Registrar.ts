@@ -52,6 +52,13 @@ export class Registrar {
   }
 
   /**
+   * Gets the URL for the create endpoint.
+   */
+  public getCreateURL(): string {
+    return this.createUrl;
+  }
+
+  /**
    * Sets the update URL for the registrar.
    *
    * @param url The update URL for the registrar.
@@ -63,6 +70,13 @@ export class Registrar {
   }
 
   /**
+   * Gets the URL for the update endpoint.
+   */
+  public getUpdateURL(): string {
+    return this.updateUrl;
+  }
+
+  /**
    * Sets the deactivate URL for the registrar.
    *
    * @param url The deactivate URL for the registrar.
@@ -71,6 +85,13 @@ export class Registrar {
     this.deactivateUrl = url;
 
     return this;
+  }
+
+  /**
+   * Gets the URL for the deactivate endpoint.
+   */
+  public getDeactivateURL(): string {
+    return this.deactivateUrl;
   }
 
   /**

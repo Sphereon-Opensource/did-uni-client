@@ -30,20 +30,20 @@ const didDocument = {
 describe('setting a url', () => {
   it('should use config / environment url when no url is provided', async () => {
     const resolver = new Resolver();
-    expect(resolver.resolveUrl).toEqual(config.resolverUrlResolve);
+    expect(resolver.getResolveURL()).toEqual(config.resolverUrlResolve);
   });
 
   it('should use given resolve url when provided by setter', async () => {
     const otherResolver = 'https://other.resolver.io/1.0/identifiers';
     const resolver = new Resolver();
-    resolver.setResolveUrl(otherResolver);
-    expect(resolver.resolveUrl).toEqual(otherResolver);
+    resolver.setResolveURL(otherResolver);
+    expect(resolver.getResolveURL()).toEqual(otherResolver);
   });
 
   it('should use given base url when provided by setter', async () => {
     const otherResolver = 'https://other.resolver.io/1.0/identifiers';
     const resolver = new Resolver().setBaseURL('https://other.resolver.io');
-    expect(resolver.resolveUrl).toEqual(otherResolver);
+    expect(resolver.getResolveURL()).toEqual(otherResolver);
   });
 });
 

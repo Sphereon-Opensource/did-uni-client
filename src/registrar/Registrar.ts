@@ -1,5 +1,7 @@
 'use strict';
 
+import {parse} from 'did-resolver';
+
 import { CrudRequest } from './rest/CrudRequest';
 
 const fetch = require('cross-fetch');
@@ -78,16 +80,23 @@ export class Registrar {
    * @param did The identifier (did).
    * @param request Request matching the method needed for updating the identity.
    */
-  public update(method: string, did: string, request: CrudRequest) {
+  public update(did: string, request: CrudRequest) {
+    const parsedDid = parse(did);
+    if (parsedDid === null) {
+      return {
+        did: { error: 'invalidDid' },
+      };
+    }
+
     const url = new URL(this.updateUrl);
-    url.searchParams.append('method', method);
+    url.searchParams.append('method', parsedDid.method);
     return fetch(url, {
       method: 'post',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ did, ...request }),
+      body: JSON.stringify({ identifier: parsedDid.did, ...request }),
     }).then((result) => result.json());
   }
 
@@ -98,16 +107,24 @@ export class Registrar {
    * @param did The identifier (did).
    * @param request Request matching the method needed for deactivating the identity.
    */
-  public deactivate(method: string, did: string, request: CrudRequest) {
+  public deactivate(did: string, request: CrudRequest) {
+    const parsedDid = parse(did);
+    if (parsedDid === null) {
+      return {
+        did: { error: 'invalidDid' },
+      };
+    }
+
     const url = new URL(this.deactivateUrl);
-    url.searchParams.append('method', method);
+    url.searchParams.append('method', parsedDid.method);
     return fetch(url, {
       method: 'post',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ did, ...request }),
+      body: JSON.stringify({ identifier: parsedDid.did, ...request }),
     }).then((result) => result.json());
   }
+
 }

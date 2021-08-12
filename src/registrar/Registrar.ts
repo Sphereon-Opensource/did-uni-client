@@ -127,7 +127,7 @@ export class Registrar {
    *
    * @param did The identifier (did).
    * @param request Request matching the method needed for updating the identity.
-   * @return {didResolutionMetadata: {error: string}} result.
+   * @return {didResolutionMetadata: {error: string}}, job result.
    */
   public update(did: string, request: CrudRequest) {
     const parsedDid = parse(did);
@@ -154,7 +154,7 @@ export class Registrar {
    *
    * @param did The identifier (did).
    * @param request Request matching the method needed for deactivating the identity.
-   * @return {didResolutionMetadata: {error: string}} result.
+   * @return {didResolutionMetadata: {error: string}}, job result.
    */
   public deactivate(did: string, request: CrudRequest) {
     const parsedDid = parse(did);

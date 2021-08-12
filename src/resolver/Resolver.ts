@@ -27,7 +27,7 @@ export class Resolver {
    * @return this.
    */
   public setBaseURL(url: string): this {
-    this.resolveUrl = `${url}${Constants.URL_PATHNAME_REG.exec(this.resolveUrl)[1]}`;
+    this.resolveUrl = `${url}${Constants.URL_PATHNAME_REGEX.exec(this.resolveUrl)[1]}`;
 
     return this;
   }

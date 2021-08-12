@@ -35,9 +35,9 @@ export class Registrar {
    * @return this.
    */
   public setBaseURL(url: string): this {
-    this.createUrl = `${url}${Constants.URL_PATHNAME_REG.exec(this.createUrl)[1]}`;
-    this.updateUrl = `${url}${Constants.URL_PATHNAME_REG.exec(this.updateUrl)[1]}`;
-    this.deactivateUrl = `${url}${Constants.URL_PATHNAME_REG.exec(this.deactivateUrl)[1]}`;
+    this.createUrl = `${url}${Constants.URL_PATHNAME_REGEX.exec(this.createUrl)[1]}`;
+    this.updateUrl = `${url}${Constants.URL_PATHNAME_REGEX.exec(this.updateUrl)[1]}`;
+    this.deactivateUrl = `${url}${Constants.URL_PATHNAME_REGEX.exec(this.deactivateUrl)[1]}`;
 
     return this;
   }

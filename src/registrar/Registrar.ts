@@ -181,7 +181,7 @@ export class Registrar {
    *
    * @param url The URL.
    * @param method The did method.
-   * @return string Url with query parameter.
+   * @return string URL with query parameter.
    */
   private createURL(url: string, method: string): string {
     return `${url}?method=${method}`;

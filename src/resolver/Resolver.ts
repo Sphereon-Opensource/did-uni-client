@@ -56,7 +56,7 @@ export class Resolver {
    * Resolves a given did to did document.
    *
    * @param did The identifier (did).
-   * @return {didResolutionMetadata: {error: string}, didDocumentMetadata: {}, didDocument: null} resolution result.
+   * @return {didResolutionMetadata: {error: string}, didDocumentMetadata: {}, didDocument: null}, resolution result.
    */
   public resolve(did: string): DIDResolutionResult {
     const parsedDid = parse(did);

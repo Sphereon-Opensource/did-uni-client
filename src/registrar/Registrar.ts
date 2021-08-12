@@ -35,9 +35,9 @@ export class Registrar {
    * @return this.
    */
   public setBaseURL(url: string): this {
-    this.createUrl = `${url}${new URL(this.createUrl).pathname}`;
-    this.updateUrl = `${url}${new URL(this.updateUrl).pathname}`;
-    this.deactivateUrl = `${url}${new URL(this.deactivateUrl).pathname}`;
+    this.createUrl = `${url}${Constants.URL_PATHNAME_REGEX.exec(this.createUrl)[1]}`;
+    this.updateUrl = `${url}${Constants.URL_PATHNAME_REGEX.exec(this.updateUrl)[1]}`;
+    this.deactivateUrl = `${url}${Constants.URL_PATHNAME_REGEX.exec(this.deactivateUrl)[1]}`;
 
     return this;
   }
@@ -56,7 +56,7 @@ export class Registrar {
 
   /**
    * Gets the URL for the create endpoint.
-   * @return create URL.
+   * @return string URL.
    */
   public getCreateURL(): string {
     return this.createUrl;
@@ -76,7 +76,7 @@ export class Registrar {
 
   /**
    * Gets the URL for the update endpoint.
-   * @return update URL.
+   * @return string URL.
    */
   public getUpdateURL(): string {
     return this.updateUrl;
@@ -96,7 +96,7 @@ export class Registrar {
 
   /**
    * Gets the URL for the deactivate endpoint.
-   * @return deactivate URL.
+   * @return string URL.
    */
   public getDeactivateURL(): string {
     return this.deactivateUrl;
@@ -127,7 +127,7 @@ export class Registrar {
    *
    * @param did The identifier (did).
    * @param request Request matching the method needed for updating the identity.
-   * @return job result.
+   * @return {didResolutionMetadata: {error: string}}, job result.
    */
   public update(did: string, request: CrudRequest) {
     const parsedDid = parse(did);
@@ -154,7 +154,7 @@ export class Registrar {
    *
    * @param did The identifier (did).
    * @param request Request matching the method needed for deactivating the identity.
-   * @return job result.
+   * @return {didResolutionMetadata: {error: string}}, job result.
    */
   public deactivate(did: string, request: CrudRequest) {
     const parsedDid = parse(did);
@@ -181,12 +181,9 @@ export class Registrar {
    *
    * @param url The URL.
    * @param method The did method.
-   * @return url with query parameter.
+   * @return string URL with query parameter.
    */
-  private createURL(url: string, method: string): URL {
-    const newUrl = new URL(url);
-    newUrl.searchParams.append('method', method);
-
-    return newUrl;
+  private createURL(url: string, method: string): string {
+    return `${url}?method=${method}`;
   }
 }

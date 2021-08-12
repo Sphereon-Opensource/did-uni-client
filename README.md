@@ -20,7 +20,7 @@ And to call a universal resolver (e.g. https://dev.uniresolver.io) to resolve de
 
 ##### DID creation
  ```typescript
-const {Registrar, CrudRequestBuilder} = require('did-uni-client');
+const {Registrar, CrudRequestBuilder} = require('@sphereon/did-uni-client');
 
 const method = 'btcr';
 const request = new CrudRequestBuilder()
@@ -35,7 +35,7 @@ registrar.create(method, request)
 
 ##### DID updating
  ```typescript
-const {Registrar, CrudRequestBuilder} = require('did-uni-client');
+const {Registrar, CrudRequestBuilder} = require('@sphereon/did-uni-client');
 
 const did = 'did:btcr:xz35-jznz-q6mr-7q6';
 const request = new CrudRequestBuilder()
@@ -51,7 +51,7 @@ registrar.update(did, request)
 
 ##### DID deactivating
  ```typescript
-const {Registrar, CrudRequestBuilder} = require('did-uni-client');
+const {Registrar, CrudRequestBuilder} = require('@sphereon/did-uni-client');
 
 const did = 'did:btcr:xz35-jznz-q6mr-7q6';
 const request = new CrudRequestBuilder()
@@ -67,7 +67,7 @@ registrar.deactivate(did, request)
 
 ##### DID resolution
  ```typescript
-const {Resolver} = require('did-uni-client');
+const {Resolver} = require('@sphereon/did-uni-client');
 
 const did = 'did:btcr:xz35-jznz-q6mr-7q6';
 const resolver = new Resolver();

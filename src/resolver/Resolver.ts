@@ -27,7 +27,7 @@ export class Resolver {
    * @return this.
    */
   public setBaseURL(url: string): this {
-    this.resolveUrl = `${url}${new URL(this.resolveUrl).pathname}`;
+    this.resolveUrl = `${url}${Constants.URL_PATHNAME_REGEX.exec(this.resolveUrl)[1]}`;
 
     return this;
   }
@@ -46,7 +46,7 @@ export class Resolver {
 
   /**
    * Gets the URL for the resolve endpoint.
-   * @return resolve URL.
+   * @return string URL.
    */
   public getResolveURL(): string {
     return this.resolveUrl;
@@ -56,7 +56,7 @@ export class Resolver {
    * Resolves a given did to did document.
    *
    * @param did The identifier (did).
-   * @return did resolution result.
+   * @return {didResolutionMetadata: {error: string}, didDocumentMetadata: {}, didDocument: null}, resolution result.
    */
   public resolve(did: string): DIDResolutionResult {
     const parsedDid = parse(did);
@@ -68,7 +68,7 @@ export class Resolver {
       };
     }
 
-    const url = new URL(`${this.resolveUrl}/${parsedDid.did}`);
+    const url = `${this.resolveUrl}/${parsedDid.did}`;
     return fetch(url).then((result) => {
       return result.json();
     });

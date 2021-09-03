@@ -10,7 +10,9 @@ export class CrudRequest implements ICrudRequest {
   readonly options: Record<string, unknown>;
   readonly secret: Record<string, unknown> | string;
 
-  protected constructor(request: CrudRequest) {
-    Object.assign(this, request);
+  protected constructor(request?: CrudRequest) {
+    if (request) {
+      Object.assign(this, request);
+    }
   }
 }

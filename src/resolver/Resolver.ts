@@ -69,8 +69,12 @@ export class Resolver {
     }
 
     const url = `${this.resolveUrl}/${parsedDid.did}`;
-    return fetch(url).then((result) => {
-      return result.json();
+    return fetch(url).then(async (response) => {
+      if (response.status >= 400) {
+        throw await response.text();
+      } else {
+        return response.json();
+      }
     });
   }
 }

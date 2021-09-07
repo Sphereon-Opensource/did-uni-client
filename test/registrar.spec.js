@@ -30,6 +30,14 @@ const didDocument = {
   }],
 };
 const did = 'did:btcr:xz35-jznz-q6mr-7q6';
+const otherDid = 'did:btcr:xz35-jznz-q6mr-7q7';
+
+const request = new CrudRequestBuilder()
+  .withJobId('6d85bcd0-2ea3-4288-ab00-15afadd8a156')
+  .withDidDocument(didDocument)
+  .withOptions({chain: 'TESTNET'})
+  .withSecret({seed: '72WGp7NgFR1Oqdi8zlt7jQQ434XR0cNQ'})
+  .build();
 
 describe('setting a url', () => {
   it('should use config / environment url when no url is provided', async () => {
@@ -57,6 +65,7 @@ describe('setting a url', () => {
     registrar.setDeactivateURL(otherRegistrar);
     expect(registrar.getDeactivateURL()).toEqual(otherRegistrar);
   });
+
   it('should use given base url when provided by setter', async () => {
     const otherRegistrar = 'https://other.registrar.io/1.0/create';
     const registrar = new Registrar().setBaseURL('https://other.registrar.io');
@@ -66,16 +75,15 @@ describe('setting a url', () => {
 
 describe('create identity', () => {
   const method = 'btcr';
-  const request = new CrudRequestBuilder()
-    .withJobId('6d85bcd0-2ea3-4288-ab00-15afadd8a156')
-    .withDidDocument(didDocument)
-    .withOptions({chain: 'TESTNET'})
-    .withSecret({seed: '72WGp7NgFR1Oqdi8zlt7jQQ434XR0cNQ'})
-    .build();
+  const otherMethod = 'otherMethod';
 
   nock(config.registrarUrlCreate)
     .post(`?method=${method}`, {...request})
     .reply(200, {jobId: '6d85bcd0-2ea3-4288-ab00-15afadd8a156'});
+
+  nock(config.registrarUrlCreate)
+    .post(`?method=${otherMethod}`, {...request})
+    .reply(500, 'Unable to create');
 
   it('should return identity creation job', async () => {
     const registrar = new Registrar();
@@ -84,19 +92,22 @@ describe('create identity', () => {
 
     expect(job.jobId).toEqual(request.jobId);
   });
+
+  it('should throw error if not successful', async () => {
+    const registrar = new Registrar();
+    await registrar.create(otherMethod, request)
+      .catch(error => expect(error).toEqual('Unable to create'));
+  });
 });
 
 describe('update identity', () => {
-  const request = new CrudRequestBuilder()
-    .withJobId('6d85bcd0-2ea3-4288-ab00-15afadd8a156')
-    .withDidDocument(didDocument)
-    .withOptions({chain: 'TESTNET'})
-    .withSecret({seed: '72WGp7NgFR1Oqdi8zlt7jQQ434XR0cNQ'})
-    .build();
-
   nock(config.registrarUrlUpdate)
     .post(`?method=${parse(did).method}`, {identifier: did, ...request})
     .reply(200, {jobId: '6d85bcd0-2ea3-4288-ab00-15afadd8a156'});
+
+  nock(config.registrarUrlUpdate)
+    .post(`?method=${parse(did).method}`, {identifier: otherDid, ...request})
+    .reply(500, 'Unable to update');
 
   it('should return identity update job', async () => {
     const registrar = new Registrar();
@@ -111,19 +122,22 @@ describe('update identity', () => {
 
     expect(job.didResolutionMetadata.error).toEqual(Constants.INVALID_DID);
   });
+
+  it('should throw error if not successful', async () => {
+    const registrar = new Registrar();
+    await registrar.update(otherDid, request)
+      .catch(error => expect(error).toEqual('Unable to update'));
+  });
 });
 
 describe('deactivate identity', () => {
-  const request = new CrudRequestBuilder()
-    .withJobId('6d85bcd0-2ea3-4288-ab00-15afadd8a156')
-    .withDidDocument(didDocument)
-    .withOptions({chain: 'TESTNET'})
-    .withSecret({seed: '72WGp7NgFR1Oqdi8zlt7jQQ434XR0cNQ'})
-    .build();
-
   nock(config.registrarUrlDeactivate)
     .post(`?method=${parse(did).method}`, {identifier: did, ...request})
     .reply(200, {jobId: '6d85bcd0-2ea3-4288-ab00-15afadd8a156'});
+
+  nock(config.registrarUrlDeactivate)
+    .post(`?method=${parse(did).method}`, {identifier: otherDid, ...request})
+    .reply(500, 'Unable to update');
 
   it('should return identity deactivation job', async () => {
     const registrar = new Registrar();
@@ -137,5 +151,11 @@ describe('deactivate identity', () => {
     const job = await registrar.deactivate('abcdefg123456789', request);
 
     expect(job.didResolutionMetadata.error).toEqual(Constants.INVALID_DID);
+  });
+
+  it('should throw error if not successful', async () => {
+    const registrar = new Registrar();
+    await registrar.deactivate(otherDid, request)
+      .catch(error => expect(error).toEqual('Unable to update'));
   });
 });

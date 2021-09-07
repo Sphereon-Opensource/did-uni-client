@@ -119,7 +119,13 @@ export class Registrar {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(request),
-    }).then((result) => result.json());
+    }).then(async (response) => {
+      if (response.status >= 400) {
+        throw await response.text();
+      } else {
+        return response.json();
+      }
+    });
   }
 
   /**
@@ -146,7 +152,13 @@ export class Registrar {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ identifier: parsedDid.did, ...request }),
-    }).then((result) => result.json());
+    }).then(async (response) => {
+      if (response.status >= 400) {
+        throw await response.text();
+      } else {
+        return response.json();
+      }
+    });
   }
 
   /**
@@ -173,7 +185,13 @@ export class Registrar {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ identifier: parsedDid.did, ...request }),
-    }).then((result) => result.json());
+    }).then(async (response) => {
+      if (response.status >= 400) {
+        throw await response.text();
+      } else {
+        return response.json();
+      }
+    });
   }
 
   /**

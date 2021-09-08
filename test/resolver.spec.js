@@ -31,6 +31,7 @@ const didDocument = {
 describe('setting a url', () => {
   it('should use config / environment url when no url is provided', async () => {
     const resolver = new Resolver();
+    
     expect(resolver.getResolveURL()).toEqual(config.resolverUrlResolve);
   });
 
@@ -38,12 +39,14 @@ describe('setting a url', () => {
     const otherResolver = 'https://other.resolver.io/1.0/identifiers';
     const resolver = new Resolver();
     resolver.setResolveURL(otherResolver);
+
     expect(resolver.getResolveURL()).toEqual(otherResolver);
   });
 
   it('should use given base url when provided by setter', async () => {
     const otherResolver = 'https://other.resolver.io/1.0/identifiers';
     const resolver = new Resolver().setBaseURL('https://other.resolver.io');
+
     expect(resolver.getResolveURL()).toEqual(otherResolver);
   });
 });
@@ -67,12 +70,14 @@ describe('did resolving', () => {
   it('should resolve did to did document', async () => {
     const resolver = new Resolver();
     const didResolutionResult = await resolver.resolve(did);
+
     expect(didResolutionResult.didDocument.id).toEqual(did);
   });
 
   it('should result in didResolutionMetadata with error when providing invalid did', async () => {
     const resolver = new Resolver();
     const didResolutionResult = await resolver.resolve('abcdefg123456789');
+
     expect(didResolutionResult.didResolutionMetadata.error).toEqual(Constants.INVALID_DID);
   });
 

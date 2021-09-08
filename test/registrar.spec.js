@@ -42,6 +42,7 @@ const request = new CrudRequestBuilder()
 describe('setting a url', () => {
   it('should use config / environment url when no url is provided', async () => {
     const registrar = new Registrar();
+
     expect(registrar.getCreateURL()).toEqual(config.registrarUrlCreate);
   });
 
@@ -49,6 +50,7 @@ describe('setting a url', () => {
     const otherRegistrar = 'https://other.registrar.io/1.0/create';
     const registrar = new Registrar();
     registrar.setCreateURL(otherRegistrar);
+
     expect(registrar.getCreateURL()).toEqual(otherRegistrar);
   });
 
@@ -56,6 +58,7 @@ describe('setting a url', () => {
     const otherRegistrar = 'https://other.registrar.io/1.0/update';
     const registrar = new Registrar();
     registrar.setUpdateURL(otherRegistrar);
+
     expect(registrar.getUpdateURL()).toEqual(otherRegistrar);
   });
 
@@ -63,12 +66,14 @@ describe('setting a url', () => {
     const otherRegistrar = 'https://other.registrar.io/1.0/deactivate';
     const registrar = new Registrar();
     registrar.setDeactivateURL(otherRegistrar);
+
     expect(registrar.getDeactivateURL()).toEqual(otherRegistrar);
   });
 
   it('should use given base url when provided by setter', async () => {
     const otherRegistrar = 'https://other.registrar.io/1.0/create';
     const registrar = new Registrar().setBaseURL('https://other.registrar.io');
+
     expect(registrar.getCreateURL()).toEqual(otherRegistrar);
   });
 });

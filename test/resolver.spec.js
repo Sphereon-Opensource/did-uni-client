@@ -76,9 +76,10 @@ describe('did resolving', () => {
     expect(didResolutionResult.didResolutionMetadata.error).toEqual(Constants.INVALID_DID);
   });
 
-  it('should throw error if not successful', async () => {
+  it('should reject if not successful', async () => {
     const resolver = new Resolver();
-    await resolver.resolve(nonResolvableDid)
-      .catch(error => expect(error).toEqual('Unable to resolve did'));
+    expect.assertions(1);
+
+    await expect(resolver.resolve(nonResolvableDid)).rejects.toThrow();
   });
 });

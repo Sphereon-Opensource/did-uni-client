@@ -95,8 +95,8 @@ describe('create identity', () => {
 
   it('should throw error if not successful', async () => {
     const registrar = new Registrar();
-    await registrar.create(otherMethod, request)
-      .catch(error => expect(error).toEqual('Unable to create'));
+
+    await expect(registrar.create(otherMethod, request)).rejects.toThrow();
   });
 });
 
@@ -125,8 +125,8 @@ describe('update identity', () => {
 
   it('should throw error if not successful', async () => {
     const registrar = new Registrar();
-    await registrar.update(otherDid, request)
-      .catch(error => expect(error).toEqual('Unable to update'));
+
+    await expect(registrar.update(otherDid, request)).rejects.toThrow();
   });
 });
 
@@ -155,7 +155,7 @@ describe('deactivate identity', () => {
 
   it('should throw error if not successful', async () => {
     const registrar = new Registrar();
-    await registrar.deactivate(otherDid, request)
-      .catch(error => expect(error).toEqual('Unable to update'));
+
+    await expect(registrar.deactivate(otherDid, request)).rejects.toThrow();
   });
 });

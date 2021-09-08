@@ -71,7 +71,7 @@ export class Resolver {
     const url = `${this.resolveUrl}/${parsedDid.did}`;
     return fetch(url).then(async (response) => {
       if (response.status >= 400) {
-        throw await response.text();
+        return Promise.reject(new Error(await response.text()));
       } else {
         return response.json();
       }

@@ -31,6 +31,7 @@ const didDocument = {
 describe('setting a url', () => {
   it('should use config / environment url when no url is provided', async () => {
     const resolver = new Resolver();
+    
     expect(resolver.getResolveURL()).toEqual(config.resolverUrlResolve);
   });
 
@@ -38,19 +39,21 @@ describe('setting a url', () => {
     const otherResolver = 'https://other.resolver.io/1.0/identifiers';
     const resolver = new Resolver();
     resolver.setResolveURL(otherResolver);
+
     expect(resolver.getResolveURL()).toEqual(otherResolver);
   });
 
   it('should use given base url when provided by setter', async () => {
     const otherResolver = 'https://other.resolver.io/1.0/identifiers';
     const resolver = new Resolver().setBaseURL('https://other.resolver.io');
+
     expect(resolver.getResolveURL()).toEqual(otherResolver);
   });
 });
 
 describe('did resolving', () => {
   const did = 'did:btcr:xz35-jznz-q6mr-7q6';
-  const nonResolvableDid = 'did:btcr:xz35-jznz-q6mr-7q7';
+  const otherDid = 'did:btcr:xz35-jznz-q6mr-7q7';
 
   nock(config.resolverUrlResolve)
     .get(`/${did}`)
@@ -61,24 +64,26 @@ describe('did resolving', () => {
       );
 
   nock(config.resolverUrlResolve)
-    .get(`/${nonResolvableDid}`)
+    .get(`/${otherDid}`)
     .reply(500, 'Unable to resolve did');
 
   it('should resolve did to did document', async () => {
     const resolver = new Resolver();
     const didResolutionResult = await resolver.resolve(did);
+
     expect(didResolutionResult.didDocument.id).toEqual(did);
   });
 
   it('should result in didResolutionMetadata with error when providing invalid did', async () => {
     const resolver = new Resolver();
     const didResolutionResult = await resolver.resolve('abcdefg123456789');
+
     expect(didResolutionResult.didResolutionMetadata.error).toEqual(Constants.INVALID_DID);
   });
 
-  it('should throw error if not successful', async () => {
+  it('should reject if not successful', async () => {
     const resolver = new Resolver();
-    await resolver.resolve(nonResolvableDid)
-      .catch(error => expect(error).toEqual('Unable to resolve did'));
+
+    await expect(resolver.resolve(otherDid)).rejects.toThrow();
   });
 });

@@ -121,7 +121,7 @@ export class Registrar {
       body: JSON.stringify(request),
     }).then(async (response) => {
       if (response.status >= 400) {
-        throw await response.text();
+        return Promise.reject(new Error(await response.text()));
       } else {
         return response.json();
       }
@@ -154,7 +154,7 @@ export class Registrar {
       body: JSON.stringify({ identifier: parsedDid.did, ...request }),
     }).then(async (response) => {
       if (response.status >= 400) {
-        throw await response.text();
+        return Promise.reject(new Error(await response.text()));
       } else {
         return response.json();
       }
@@ -187,7 +187,7 @@ export class Registrar {
       body: JSON.stringify({ identifier: parsedDid.did, ...request }),
     }).then(async (response) => {
       if (response.status >= 400) {
-        throw await response.text();
+        return Promise.reject(new Error(await response.text()));
       } else {
         return response.json();
       }

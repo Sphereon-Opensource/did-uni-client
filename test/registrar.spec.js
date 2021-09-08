@@ -42,6 +42,7 @@ const request = new CrudRequestBuilder()
 describe('setting a url', () => {
   it('should use config / environment url when no url is provided', async () => {
     const registrar = new Registrar();
+
     expect(registrar.getCreateURL()).toEqual(config.registrarUrlCreate);
   });
 
@@ -49,6 +50,7 @@ describe('setting a url', () => {
     const otherRegistrar = 'https://other.registrar.io/1.0/create';
     const registrar = new Registrar();
     registrar.setCreateURL(otherRegistrar);
+
     expect(registrar.getCreateURL()).toEqual(otherRegistrar);
   });
 
@@ -56,6 +58,7 @@ describe('setting a url', () => {
     const otherRegistrar = 'https://other.registrar.io/1.0/update';
     const registrar = new Registrar();
     registrar.setUpdateURL(otherRegistrar);
+
     expect(registrar.getUpdateURL()).toEqual(otherRegistrar);
   });
 
@@ -63,12 +66,14 @@ describe('setting a url', () => {
     const otherRegistrar = 'https://other.registrar.io/1.0/deactivate';
     const registrar = new Registrar();
     registrar.setDeactivateURL(otherRegistrar);
+
     expect(registrar.getDeactivateURL()).toEqual(otherRegistrar);
   });
 
   it('should use given base url when provided by setter', async () => {
     const otherRegistrar = 'https://other.registrar.io/1.0/create';
     const registrar = new Registrar().setBaseURL('https://other.registrar.io');
+
     expect(registrar.getCreateURL()).toEqual(otherRegistrar);
   });
 });
@@ -93,10 +98,10 @@ describe('create identity', () => {
     expect(job.jobId).toEqual(request.jobId);
   });
 
-  it('should throw error if not successful', async () => {
+  it('should reject if not successful', async () => {
     const registrar = new Registrar();
-    await registrar.create(otherMethod, request)
-      .catch(error => expect(error).toEqual('Unable to create'));
+
+    await expect(registrar.create(otherMethod, request)).rejects.toThrow();
   });
 });
 
@@ -123,10 +128,10 @@ describe('update identity', () => {
     expect(job.didResolutionMetadata.error).toEqual(Constants.INVALID_DID);
   });
 
-  it('should throw error if not successful', async () => {
+  it('should reject if not successful', async () => {
     const registrar = new Registrar();
-    await registrar.update(otherDid, request)
-      .catch(error => expect(error).toEqual('Unable to update'));
+
+    await expect(registrar.update(otherDid, request)).rejects.toThrow();
   });
 });
 
@@ -153,9 +158,9 @@ describe('deactivate identity', () => {
     expect(job.didResolutionMetadata.error).toEqual(Constants.INVALID_DID);
   });
 
-  it('should throw error if not successful', async () => {
+  it('should reject if not successful', async () => {
     const registrar = new Registrar();
-    await registrar.deactivate(otherDid, request)
-      .catch(error => expect(error).toEqual('Unable to update'));
+
+    await expect(registrar.deactivate(otherDid, request)).rejects.toThrow();
   });
 });

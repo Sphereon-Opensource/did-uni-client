@@ -78,7 +78,6 @@ describe('did resolving', () => {
 
   it('should reject if not successful', async () => {
     const resolver = new Resolver();
-    expect.assertions(1);
 
     await expect(resolver.resolve(otherDid)).rejects.toThrow();
   });

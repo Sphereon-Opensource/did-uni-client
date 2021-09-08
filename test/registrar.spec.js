@@ -93,7 +93,7 @@ describe('create identity', () => {
     expect(job.jobId).toEqual(request.jobId);
   });
 
-  it('should throw error if not successful', async () => {
+  it('should reject if not successful', async () => {
     const registrar = new Registrar();
 
     await expect(registrar.create(otherMethod, request)).rejects.toThrow();
@@ -123,7 +123,7 @@ describe('update identity', () => {
     expect(job.didResolutionMetadata.error).toEqual(Constants.INVALID_DID);
   });
 
-  it('should throw error if not successful', async () => {
+  it('should reject if not successful', async () => {
     const registrar = new Registrar();
 
     await expect(registrar.update(otherDid, request)).rejects.toThrow();
@@ -153,7 +153,7 @@ describe('deactivate identity', () => {
     expect(job.didResolutionMetadata.error).toEqual(Constants.INVALID_DID);
   });
 
-  it('should throw error if not successful', async () => {
+  it('should reject if not successful', async () => {
     const registrar = new Registrar();
 
     await expect(registrar.deactivate(otherDid, request)).rejects.toThrow();

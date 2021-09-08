@@ -50,7 +50,7 @@ describe('setting a url', () => {
 
 describe('did resolving', () => {
   const did = 'did:btcr:xz35-jznz-q6mr-7q6';
-  const nonResolvableDid = 'did:btcr:xz35-jznz-q6mr-7q7';
+  const otherDid = 'did:btcr:xz35-jznz-q6mr-7q7';
 
   nock(config.resolverUrlResolve)
     .get(`/${did}`)
@@ -61,7 +61,7 @@ describe('did resolving', () => {
       );
 
   nock(config.resolverUrlResolve)
-    .get(`/${nonResolvableDid}`)
+    .get(`/${otherDid}`)
     .reply(500, 'Unable to resolve did');
 
   it('should resolve did to did document', async () => {
@@ -80,6 +80,6 @@ describe('did resolving', () => {
     const resolver = new Resolver();
     expect.assertions(1);
 
-    await expect(resolver.resolve(nonResolvableDid)).rejects.toThrow();
+    await expect(resolver.resolve(otherDid)).rejects.toThrow();
   });
 });

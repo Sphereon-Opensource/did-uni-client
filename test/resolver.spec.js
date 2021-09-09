@@ -1,8 +1,8 @@
-const {describe, expect, it} = require('@jest/globals');
+const { describe, expect, it } = require('@jest/globals');
 const nock = require('nock');
 const config = require('../src/config');
-const {Resolver} = require('../src/resolver/Resolver');
-const {Constants} = require('../src/Constants');
+const { getResolver, Resolver } = require('../src/resolver/Resolver');
+const { Constants } = require('../src/Constants');
 
 const didDocument = {
   '@context': 'https://w3id.org/did/v1',
@@ -54,7 +54,6 @@ describe('setting a url', () => {
 describe('did resolving', () => {
   const did = 'did:btcr:xz35-jznz-q6mr-7q6';
   const otherDid = 'did:btcr:xz35-jznz-q6mr-7q7';
-
   nock(config.resolverUrlResolve)
     .get(`/${did}`)
     .reply(200, {
@@ -85,5 +84,31 @@ describe('did resolving', () => {
     const resolver = new Resolver();
 
     await expect(resolver.resolve(otherDid)).rejects.toThrow();
+  });
+});
+describe('did resolving with driver', () => {
+  const did = 'did:btcr:xz35-jznz-q6mr-7q6';
+  nock(config.resolverUrlResolve)
+    .get(`/${did}`)
+    .reply(200, {
+        didResolutionMetadata: {},
+        didDocument,
+        didDocumentMetadata: {}}
+      );
+
+  it('should reject the call', async () => {
+    const result = getResolver().resolve(
+      did,
+      null,
+      null,
+      null,
+      'https://other.resolver.io/1.0/identifiers');
+    await expect(result).rejects.toThrow()
+  });
+
+  it('should resolve the did', async () => {
+    const didResolutionResult = await getResolver().resolve(
+      'did:btcr:xz35-jznz-q6mr-7q6');
+    expect(didResolutionResult.didDocument.id).toEqual(did);
   });
 });

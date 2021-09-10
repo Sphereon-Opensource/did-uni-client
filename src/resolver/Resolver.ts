@@ -87,11 +87,10 @@ export function getResolver() {
     did: string,
     _parsed: ParsedDID,
     _didResolver: DrResolver,
-    _options: DIDResolutionOptions,
-    resolveUrl: string
+    options: DIDResolutionOptions
   ): Promise<DIDResolutionResult> {
-    if (resolveUrl) {
-      resolver.setResolveURL(resolveUrl);
+    if (options && options['resolveUrl']) {
+      resolver.setResolveURL(options['resolveUrl']);
     }
     return resolver.resolve(did);
   }

@@ -25,13 +25,13 @@ const didDocument = {
   authentication: [{
     type: 'RsaSignatureAuthentication2018',
     publicKey: 'did:btcr:xz35-jznz-q6mr-7q6#keys-1'
-  }],
+  }]
 };
 
 describe('setting a url', () => {
   it('should use config / environment url when no url is provided', async () => {
     const resolver = new Resolver();
-    
+
     expect(resolver.getResolveURL()).toEqual(config.resolverUrlResolve);
   });
 
@@ -59,8 +59,9 @@ describe('did resolving', () => {
     .reply(200, {
         didResolutionMetadata: {},
         didDocument,
-        didDocumentMetadata: {}}
-      );
+        didDocumentMetadata: {}
+      }
+    );
 
   nock(config.resolverUrlResolve)
     .get(`/${otherDid}`)
@@ -93,17 +94,17 @@ describe('did resolving with driver', () => {
     .reply(200, {
         didResolutionMetadata: {},
         didDocument,
-        didDocumentMetadata: {}}
-      );
+        didDocumentMetadata: {}
+      }
+    );
 
   it('should reject the call', async () => {
     const result = getResolver().resolve(
       did,
       null,
       null,
-      null,
-      'https://other.resolver.io/1.0/identifiers');
-    await expect(result).rejects.toThrow()
+      { 'resolveUrl': 'https://other.resolver.io/1.0/identifiers' });
+    await expect(result).rejects.toThrow();
   });
 
   it('should resolve the did', async () => {

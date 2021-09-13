@@ -1,4 +1,4 @@
-import { DIDResolutionOptions, DIDResolutionResult, Resolver as DrResolver, parse, ParsedDID } from 'did-resolver';
+import { DIDResolutionOptions, DIDResolutionResult, Resolver as DifResolver, parse, ParsedDID } from 'did-resolver';
 
 import { Constants } from '../Constants';
 
@@ -88,7 +88,7 @@ export function getResolver(opt?: { [key: string]: string }) {
   async function resolve(
     did: string,
     _parsed: ParsedDID,
-    _didResolver: DrResolver,
+    _didResolver: DifResolver,
     _options: DIDResolutionOptions
   ): Promise<DIDResolutionResult> {
     return resolver.resolve(did);

@@ -105,9 +105,8 @@ describe('did resolving with driver', () => {
   });
 
   it('should reject the call', async () => {
-    const result = getResolver()
-      .resolve(did);
-    await expect(result).rejects.toThrow();
+    const resolver = getResolver({ 'resolveUrl': 'https://other.resolver.io/1.0/identifiers' })
+      await expect(resolver.resolve('did:btcr:xz35-jznz-q6mr-7q6')).rejects.toThrow();
   });
 
 });

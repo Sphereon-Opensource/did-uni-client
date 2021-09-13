@@ -98,14 +98,14 @@ const didResolutionResult2 = await getResolver('factom')
 
 
 //
-// Use it together with other drivers:
+// Example 3: Use it together with other drivers:
 //
 
 // 2 other drivers
 ethrResolver = ethr.getResolver();
 webResolver = web.getResolver();
 
-// 2 times the uni-driver but for different methods
+// 2 times the uni-driver but for different DID-methods
 btcrResolver = getResolver('btcr');
 eosUniResolver = getResolver('eosio');
 

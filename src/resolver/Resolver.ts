@@ -80,18 +80,17 @@ export class Resolver {
 /**
  * Packaging the resolver as a driver to meet https://github.com/decentralized-identity/did-resolver spec
  */
-export function getResolver() {
+export function getResolver(opt?: any) {
   const resolver: Resolver = new Resolver();
-
+  if (opt && opt['resolveUrl']) {
+    resolver.setResolveURL(opt['resolveUrl']);
+  }
   async function resolve(
     did: string,
     _parsed: ParsedDID,
     _didResolver: DrResolver,
-    options: DIDResolutionOptions
+    _options: DIDResolutionOptions
   ): Promise<DIDResolutionResult> {
-    if (options && options['resolveUrl']) {
-      resolver.setResolveURL(options['resolveUrl']);
-    }
     return resolver.resolve(did);
   }
 

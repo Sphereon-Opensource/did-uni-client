@@ -57,10 +57,10 @@ describe('did resolving', () => {
   nock(config.resolverUrlResolve)
     .get(`/${did}`)
     .reply(200, {
-        didResolutionMetadata: {},
-        didDocument,
-        didDocumentMetadata: {}
-      }
+      didResolutionMetadata: {},
+      didDocument,
+      didDocumentMetadata: {}
+    }
     );
 
   nock(config.resolverUrlResolve)
@@ -92,24 +92,21 @@ describe('did resolving with driver', () => {
   nock(config.resolverUrlResolve)
     .get(`/${did}`)
     .reply(200, {
-        didResolutionMetadata: {},
-        didDocument,
-        didDocumentMetadata: {}
-      }
+      didResolutionMetadata: {},
+      didDocument,
+      didDocumentMetadata: {}
+    }
     );
 
+  it('should resolve the did', async () => {
+    const didResolutionResult = await getResolver({ 'resolveUrl': 'https://dev.uniresolver.io/1.0/identifiers' }).resolve('did:btcr:xz35-jznz-q6mr-7q6');
+    expect(didResolutionResult.didDocument.id).toEqual(did);
+  });
+
   it('should reject the call', async () => {
-    const result = getResolver().resolve(
-      did,
-      null,
-      null,
-      { 'resolveUrl': 'https://other.resolver.io/1.0/identifiers' });
+    const result = getResolver()
+      .resolve(did);
     await expect(result).rejects.toThrow();
   });
 
-  it('should resolve the did', async () => {
-    const didResolutionResult = await getResolver().resolve(
-      'did:btcr:xz35-jznz-q6mr-7q6');
-    expect(didResolutionResult.didDocument.id).toEqual(did);
-  });
 });

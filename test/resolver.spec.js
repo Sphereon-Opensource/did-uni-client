@@ -99,7 +99,8 @@ describe('did resolving with driver', () => {
     );
 
   it('should resolve the did', async () => {
-    const didResolutionResult = await getResolver({ 'resolveUrl': 'https://dev.uniresolver.io/1.0/identifiers' }).resolve('did:btcr:xz35-jznz-q6mr-7q6');
+    const didResolutionResult = await getResolver({ 'resolveUrl': 'https://dev.uniresolver.io/1.0/identifiers' })
+      .resolve('did:btcr:xz35-jznz-q6mr-7q6');
     expect(didResolutionResult.didDocument.id).toEqual(did);
   });
 

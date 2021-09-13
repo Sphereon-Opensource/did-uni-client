@@ -84,13 +84,10 @@ You can call it simply with calling `getResolver()`:
 const { getResolver, Resolver } = require('../src/resolver/Resolver');
 
 const did = 'did:btcr:xz35-jznz-q6mr-7q6';
-const didResolutionResult1 = await getResolver()
+const didResolutionResult1 = await getResolver({ 'resolveUrl': 'https://dev.uniresolver.io/1.0/identifiers'})
   .resolve(did);
 const didResolutionResult2 = await getResolver()
-  .resolve(did,
-    null,
-    null,
-    { 'resolveUrl': 'https://other.resolver.io/1.0/identifiers' });
+  .resolve(did);
 ```
 ### Configuration
 To use the library, URL's needs to be available for universal registrar endpoints and universal resolver endpoints. There are three options to configure the URL's.

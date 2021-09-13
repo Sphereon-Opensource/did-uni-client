@@ -80,7 +80,7 @@ export class Resolver {
 /**
  * Packaging the resolver as a driver to meet https://github.com/decentralized-identity/did-resolver spec
  */
-export function getResolver(opt?: any) {
+export function getResolver(opt?: { [key: string]: string }) {
   const resolver: Resolver = new Resolver();
   if (opt && opt['resolveUrl']) {
     resolver.setResolveURL(opt['resolveUrl']);

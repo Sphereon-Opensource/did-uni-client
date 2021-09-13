@@ -1,8 +1,8 @@
-const {describe, expect, it} = require('@jest/globals');
+const { describe, expect, it } = require('@jest/globals');
 const nock = require('nock');
 const config = require('../src/config');
-const {Resolver} = require('../src/resolver/Resolver');
-const {Constants} = require('../src/Constants');
+const { getResolver, Resolver } = require('../src/resolver/Resolver');
+const { Constants } = require('../src/Constants');
 
 const didDocument = {
   '@context': 'https://w3id.org/did/v1',
@@ -25,13 +25,13 @@ const didDocument = {
   authentication: [{
     type: 'RsaSignatureAuthentication2018',
     publicKey: 'did:btcr:xz35-jznz-q6mr-7q6#keys-1'
-  }],
+  }]
 };
 
 describe('setting a url', () => {
   it('should use config / environment url when no url is provided', async () => {
     const resolver = new Resolver();
-    
+
     expect(resolver.getResolveURL()).toEqual(config.resolverUrlResolve);
   });
 
@@ -54,14 +54,14 @@ describe('setting a url', () => {
 describe('did resolving', () => {
   const did = 'did:btcr:xz35-jznz-q6mr-7q6';
   const otherDid = 'did:btcr:xz35-jznz-q6mr-7q7';
-
   nock(config.resolverUrlResolve)
     .get(`/${did}`)
     .reply(200, {
-        didResolutionMetadata: {},
-        didDocument,
-        didDocumentMetadata: {}}
-      );
+      didResolutionMetadata: {},
+      didDocument,
+      didDocumentMetadata: {}
+    }
+    );
 
   nock(config.resolverUrlResolve)
     .get(`/${otherDid}`)
@@ -86,4 +86,27 @@ describe('did resolving', () => {
 
     await expect(resolver.resolve(otherDid)).rejects.toThrow();
   });
+});
+describe('did resolving with driver', () => {
+  const did = 'did:btcr:xz35-jznz-q6mr-7q6';
+  nock(config.resolverUrlResolve)
+    .get(`/${did}`)
+    .reply(200, {
+      didResolutionMetadata: {},
+      didDocument,
+      didDocumentMetadata: {}
+    }
+    );
+
+  it('should resolve the did', async () => {
+    const didResolutionResult = await getResolver({ 'resolveUrl': 'https://dev.uniresolver.io/1.0/identifiers' })
+      .resolve('did:btcr:xz35-jznz-q6mr-7q6');
+    expect(didResolutionResult.didDocument.id).toEqual(did);
+  });
+
+  it('should reject the call', async () => {
+    const resolver = getResolver({ 'resolveUrl': 'https://other.resolver.io/1.0/identifiers' })
+      await expect(resolver.resolve('did:btcr:xz35-jznz-q6mr-7q6')).rejects.toThrow();
+  });
+
 });

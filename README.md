@@ -77,6 +77,18 @@ resolver.resolve(did)
   .catch(error => 'failed');
  ```
 
+#### Using as driver
+You can also use this project as a did resolver driver. This project is developed based on the guidelines of [Decentralized Identity](https://github.com/decentralized-identity/did-resolver/tree/master#implementing-a-did-method)
+You can call it simply with calling `getResolver()`:
+```typescript
+const { getResolver, Resolver } = require('../src/resolver/Resolver');
+
+const did = 'did:btcr:xz35-jznz-q6mr-7q6';
+const didResolutionResult1 = await getResolver({ 'resolveUrl': 'https://dev.uniresolver.io/1.0/identifiers'})
+  .resolve(did);
+const didResolutionResult2 = await getResolver()
+  .resolve(did);
+```
 ### Configuration
 To use the library, URL's needs to be available for universal registrar endpoints and universal resolver endpoints. There are three options to configure the URL's.
 The library will first check if there is an environment variable, if this is not present it will look in the config file. It is also possible to overwrite the default URL's by using one of the URL setters.

@@ -1,6 +1,4 @@
-'use strict';
-
-import { DIDResolutionResult, parse } from 'did-resolver';
+import { DIDResolutionOptions, DIDResolutionResult, Resolver as DifResolver, parse, ParsedDID } from 'did-resolver';
 
 import { Constants } from '../Constants';
 
@@ -77,4 +75,24 @@ export class Resolver {
       }
     });
   }
+}
+
+/**
+ * Packaging the resolver as a driver to meet https://github.com/decentralized-identity/did-resolver spec
+ */
+export function getResolver(opt?: { [key: string]: string }) {
+  const resolver: Resolver = new Resolver();
+  if (opt && opt['resolveUrl']) {
+    resolver.setResolveURL(opt['resolveUrl']);
+  }
+  async function resolve(
+    did: string,
+    _parsed: ParsedDID,
+    _didResolver: DifResolver,
+    _options: DIDResolutionOptions
+  ): Promise<DIDResolutionResult> {
+    return resolver.resolve(did);
+  }
+
+  return { resolve: resolve };
 }

@@ -79,32 +79,44 @@ resolver.resolve(did)
 
 #### DID resolution, as a DIF did-resolver driver
 You can also use this project as a did-resolver driver. This project is developed based on the guidelines of [Decentralized Identity](https://github.com/decentralized-identity/did-resolver/tree/master#implementing-a-did-method)
-You can use it simply by calling `getResolver()`:
+You can use it simply by calling `getResolver('didMethodName')` followed by the respective 'didMethodName' as a function. This has to do with the fact that you typically use the driver as part of another resolver object, and that resolver registers all DID methods by key (see Example 3). :
 ```typescript
 const { getResolver, Resolver } = require('../src/resolver/Resolver');
 
 const did = 'did:btcr:xz35-jznz-q6mr-7q6';
 
-// Use an option to provide an alternatieve resolution URL
-const didResolutionResult1 = await getResolver({ 'resolveUrl': 'https://dev.uniresolver.io/1.0/identifiers'})
-  .resolve(did);
+// Example 1: Use an option to provide an alternatieve resolution URL for bctr method
+const didResolutionResult1 = await getResolver('bctr', { 'resolveUrl': 'https://dev.uniresolver.io/1.0/identifiers'})
+  .bctr(did);
 
-// Use the standard resolution URL
-const didResolutionResult2 = await getResolver()
-  .resolve(did);
+// Example 2: Use the standard resolution URL but for method factom
+const didResolutionResult2 = await getResolver('factom')
+  .factom(did);
+
+
+
 
 //
 // Use it together with other drivers:
 //
+
+// 2 other drivers
 ethrResolver = ethr.getResolver();
 webResolver = web.getResolver();
-uniResolver = getResolver();
+
+// 2 times the uni-driver but for different methods
+btcrResolver = getResolver('btcr');
+eosUniResolver = getResolver('eosio');
+
 //If you are using multiple methods you need to flatten them into one object
 const resolver = new Resolver({
   ...ethrResolver,
   ...webResolver,
-  ...uniResolver
+  ...btcrResolver,
+  ...eosUniResolver
 })
+
+// Actual resolution
 const didResolutionResult3 = await resolver.resolve(did);
 
 ```

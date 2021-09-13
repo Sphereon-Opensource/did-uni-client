@@ -1,8 +1,10 @@
-const { describe, expect, it } = require('@jest/globals');
+import {Resolver as DIFResolver} from 'did-resolver';
+
 const nock = require('nock');
+
+const { Constants } = require('../src/Constants');
 const config = require('../src/config');
 const { getResolver, Resolver } = require('../src/resolver/Resolver');
-const { Constants } = require('../src/Constants');
 
 const didDocument = {
   '@context': 'https://w3id.org/did/v1',
@@ -49,6 +51,8 @@ describe('setting a url', () => {
 
     expect(resolver.getResolveURL()).toEqual(otherResolver);
   });
+
+
 });
 
 describe('did resolving', () => {
@@ -87,7 +91,7 @@ describe('did resolving', () => {
     await expect(resolver.resolve(otherDid)).rejects.toThrow();
   });
 });
-describe('did resolving with driver', () => {
+describe('did resolution as driver directly', () => {
   const did = 'did:btcr:xz35-jznz-q6mr-7q6';
   nock(config.resolverUrlResolve)
     .get(`/${did}`)
@@ -99,14 +103,45 @@ describe('did resolving with driver', () => {
     );
 
   it('should resolve the did', async () => {
-    const didResolutionResult = await getResolver({ 'resolveUrl': 'https://dev.uniresolver.io/1.0/identifiers' })
-      .resolve('did:btcr:xz35-jznz-q6mr-7q6');
+    const didResolutionResult = await getResolver('btcr', { 'resolveUrl': 'https://dev.uniresolver.io/1.0/identifiers' })
+      .btcr('did:btcr:xz35-jznz-q6mr-7q6');
     expect(didResolutionResult.didDocument.id).toEqual(did);
   });
 
   it('should reject the call', async () => {
-    const resolver = getResolver({ 'resolveUrl': 'https://other.resolver.io/1.0/identifiers' })
-      await expect(resolver.resolve('did:btcr:xz35-jznz-q6mr-7q6')).rejects.toThrow();
+    const resolver = getResolver('btcr', { 'resolveUrl': 'https://other.resolver.io/1.0/identifiers' })
+      await expect(resolver.btcr('did:btcr:xz35-jznz-q6mr-7q6')).rejects.toThrow();
+  });
+
+});
+describe('did resolution as driver in resolver', () => {
+  const did = 'did:btcr:xz35-jznz-q6mr-7q6';
+  nock(config.resolverUrlResolve)
+  .get(`/${did}`)
+  .thrice()
+  .reply(200, {
+        didResolutionMetadata: {},
+        didDocument,
+        didDocumentMetadata: {}
+      }
+  );
+
+  it('should resolve the did', async () => {
+    const btcrResolver = getResolver('btcr', { 'baseUrl': 'https://dev.uniresolver.io' });
+    const resolver = new DIFResolver(btcrResolver);
+    const didResolutionResult = await resolver.resolve('did:btcr:xz35-jznz-q6mr-7q6');
+    expect(didResolutionResult.didDocument.id).toEqual(did);
+  });
+
+  it('should not resolve the did because of wrong method', async () => {
+    const ethrResolver = getResolver('ethr', { 'resolveUrl': 'https://dev.uniresolver.io/1.0/identifiers' });
+    const resolver = new DIFResolver(ethrResolver);
+    const didResolutionResult = await resolver.resolve('did:btcr:xz35-jznz-q6mr-7q6');
+    await expect(didResolutionResult.didResolutionMetadata.error).toEqual("unsupportedDidMethod");
+  });
+
+  it('should not resolve the did because of no method', async () => {
+    expect(() => getResolver(null, { 'resolveUrl': 'https://dev.uniresolver.io/1.0/identifiers' })).toThrowError();
   });
 
 });

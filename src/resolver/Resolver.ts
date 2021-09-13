@@ -80,11 +80,24 @@ export class Resolver {
 /**
  * Packaging the resolver as a driver to meet https://github.com/decentralized-identity/did-resolver spec
  */
-export function getResolver(opt?: { [key: string]: string }) {
-  const resolver: Resolver = new Resolver();
-  if (opt && opt['resolveUrl']) {
-    resolver.setResolveURL(opt['resolveUrl']);
+export function getResolver(didMethod: string, opt?: { [key: string]: string }) {
+  if (!didMethod) {
+    throw new Error(
+      'Please provide a did method for the uni-resolver client to resolve a DID document for using the method'
+    );
   }
+
+  const resolver: Resolver = new Resolver();
+  if (opt) {
+    if (opt['resolveUrl']) {
+      resolver.setResolveURL(opt['resolveUrl']);
+    }
+    if (opt['baseUrl']) {
+      resolver.setBaseURL(opt['baseUrl']);
+    }
+  }
+
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   async function resolve(
     did: string,
     _parsed: ParsedDID,
@@ -93,6 +106,7 @@ export function getResolver(opt?: { [key: string]: string }) {
   ): Promise<DIDResolutionResult> {
     return resolver.resolve(did);
   }
+  /* eslint-enable @typescript-eslint/no-unused-vars */
 
-  return { resolve: resolve };
+  return { [didMethod]: resolve };
 }

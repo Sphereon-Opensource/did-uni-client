@@ -1,10 +1,13 @@
-const {describe, expect, it} = require('@jest/globals');
+const {parse} = require('did-resolver');
 const nock = require('nock');
+
+const {Constants} = require('../src/Constants');
 const config = require('../src/config');
 const {Registrar} = require('../src/registrar/Registrar');
 const {CrudRequestBuilder} = require('../src/registrar/rest/CrudRequestBuilder');
-const {Constants} = require('../src/Constants');
-const {parse} = require('did-resolver');
+
+
+
 
 const didDocument = {
   '@context': 'https://w3id.org/did/v1',

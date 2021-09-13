@@ -7,8 +7,8 @@
 [![CI](https://github.com/Sphereon-Opensource/did-uni-client/actions/workflows/main.yml/badge.svg)](https://github.com/Sphereon-Opensource/did-uni-client/actions/workflows/main.yml)
 
 ### Did-uni-client
-The did-uni-client is a library to call a universal registrar (e.g. https://uniregistrar.io) to create, update and deactivate decentralized identifiers. 
-And to call a universal resolver (e.g. https://dev.uniresolver.io) to resolve decentralized identifiers to did documents. It is written in Typescript and can be compiled to any target JavaScript version.
+The did-uni-client is a library to call a universal registrar (e.g. https://uniregistrar.io) to create, update and deactivate decentralized identifiers (DIDs). 
+And to call a universal resolver (e.g. https://dev.uniresolver.io) to resolve decentralized identifiers to DID Documents. It is written in Typescript and can be compiled to any target JavaScript version.
 
 ### Supported actions
  * Creating a decentralized identifier (DID).
@@ -33,7 +33,7 @@ registrar.create(method, request)
   .catch(error => 'failed');
  ```
 
-##### DID updating
+##### DID update
  ```typescript
 const {Registrar, CrudRequestBuilder} = require('@sphereon/did-uni-client');
 
@@ -49,7 +49,7 @@ registrar.update(did, request)
   .catch(error => 'failed');
  ```
 
-##### DID deactivating
+##### DID deactivation
  ```typescript
 const {Registrar, CrudRequestBuilder} = require('@sphereon/did-uni-client');
 
@@ -77,17 +77,36 @@ resolver.resolve(did)
   .catch(error => 'failed');
  ```
 
-#### Using as driver
-You can also use this project as a did resolver driver. This project is developed based on the guidelines of [Decentralized Identity](https://github.com/decentralized-identity/did-resolver/tree/master#implementing-a-did-method)
-You can call it simply with calling `getResolver()`:
+#### DID resolution, as a DIF did-resolver driver
+You can also use this project as a did-resolver driver. This project is developed based on the guidelines of [Decentralized Identity](https://github.com/decentralized-identity/did-resolver/tree/master#implementing-a-did-method)
+You can use it simply by calling `getResolver()`:
 ```typescript
 const { getResolver, Resolver } = require('../src/resolver/Resolver');
 
 const did = 'did:btcr:xz35-jznz-q6mr-7q6';
+
+// Use an option to provide an alternatieve resolution URL
 const didResolutionResult1 = await getResolver({ 'resolveUrl': 'https://dev.uniresolver.io/1.0/identifiers'})
   .resolve(did);
+
+// Use the standard resolution URL
 const didResolutionResult2 = await getResolver()
   .resolve(did);
+
+//
+// Use it together with other drivers:
+//
+ethrResolver = ethr.getResolver();
+webResolver = web.getResolver();
+uniResolver = getResolver();
+//If you are using multiple methods you need to flatten them into one object
+const resolver = new Resolver({
+  ...ethrResolver,
+  ...webResolver,
+  ...uniResolver
+})
+const didResolutionResult3 = await resolver.resolve(did);
+
 ```
 ### Configuration
 To use the library, URL's needs to be available for universal registrar endpoints and universal resolver endpoints. There are three options to configure the URL's.

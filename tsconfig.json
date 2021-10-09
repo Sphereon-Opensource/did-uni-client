@@ -32,7 +32,6 @@
   },
 
   "include": [
-    "index.ts",
     "lib/**/*",
     "test/**/*",
     "README.md",

@@ -1,5 +1,8 @@
 # Release Notes
 
+## v0.3.1 - 2021-10-09
+Fix npm packaging
+
 ## v0.3.0 - 2021-10-09
 WARNING: API changed. Many methods and classnames have changed!
 

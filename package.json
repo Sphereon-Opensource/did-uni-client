@@ -1,6 +1,6 @@
 {
   "name": "@sphereon/did-uni-client",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "A Typescript library to create, update, deactivate and resolve DID documents using a Universal Registrar and Universal Resolver",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -9,10 +9,10 @@
     "build": "tsc -p tsconfig.json",
     "test": "run-s build test:* cov",
     "test:lint": "eslint . --ext .ts",
-    "test:prettier": "prettier \"{src, test}/**/*.ts\" --list-different",
+    "test:prettier": "prettier \"{src,test}/**/*.ts\" --list-different",
     "test:unit": "jest",
     "fix": "run-s fix:*",
-    "fix:prettier": "prettier \"{src, test}/**/*.ts\" --write",
+    "fix:prettier": "prettier \"{src,test}/**/*.ts\" --write",
     "fix:lint": "eslint . --ext .ts --fix",
     "cov": "jest --coverage"
   },
@@ -43,6 +43,6 @@
   },
   "prettier": {
     "singleQuote": true,
-    "printWidth": 120
+    "printWidth": 150
   }
 }

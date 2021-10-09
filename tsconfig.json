@@ -32,10 +32,15 @@
   },
 
   "include": [
-    "src/**/*",
-    "test/**/*.ts"
+    "index.ts",
+    "lib/**/*",
+    "test/**/*",
+    "README.md",
+    "CHANGELOG.md"
   ],
   "exclude": [
-    "node_modules/**"
+    "node_modules/**",
+    "coverage/**",
+    "dist/**"
   ]
 }

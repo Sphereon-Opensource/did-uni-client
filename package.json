@@ -6,7 +6,7 @@
   "typings": "dist/index.d.ts",
   "license": "Apache-2.0",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.main.json",
     "test": "run-s build test:* cov",
     "test:lint": "eslint . --ext .ts",
     "test:prettier": "prettier \"{src,test}/**/*.ts\" --list-different",
@@ -17,8 +17,11 @@
     "cov": "jest --coverage"
   },
   "files": [
+    "index.ts",
     "/dist",
+    "!**/*.spec.*",
     "LICENSE",
+    "CHANGELOG.md",
     "README.md"
   ],
   "dependencies": {

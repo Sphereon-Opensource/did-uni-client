@@ -1,11 +1,11 @@
 import { Resolver as DIFResolver } from 'did-resolver';
 import nock from 'nock';
 
-import { getUniResolvers } from '../src/resolver/UniResolver';
-import { DefaultConfig } from '../src/types/constants';
+import { getUniResolvers } from '../lib/resolver/UniResolver';
+import { DefaultConfig } from '../lib/types/constants';
 
-const { getUniResolver, UniResolver } = require('../src/resolver/UniResolver');
-const { Constants } = require('../src/types/constants');
+const { getUniResolver, UniResolver } = require('../lib/resolver/UniResolver');
+const { Constants } = require('../lib/types/constants');
 
 const didDocument = {
   '@context': 'https://w3id.org/did/v1',

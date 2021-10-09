@@ -1,5 +1,5 @@
-import { DIDDocument, DIDRegistrationRequestBuilder, DidUniConstants, UniRegistrar } from '../src';
-import { DefaultConfig } from '../src/types/constants';
+import { DIDDocument, DIDRegistrationRequestBuilder, DidUniConstants, UniRegistrar } from '../lib';
+import { DefaultConfig } from '../lib/types/constants';
 
 const { parse } = require('did-resolver');
 const nock = require('nock');

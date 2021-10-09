@@ -7,20 +7,20 @@ import { IDIDRegistrationRequest } from '../types/types';
 import { DIDRegistrationRequest } from './DIDRegistrationRequest';
 
 export class DIDRegistrationRequestBuilder extends DIDRegistrationRequest implements Partial<IDIDRegistrationRequest> {
-  withJobId(value: string): this & Pick<IDIDRegistrationRequest, 'jobId'> {
-    return Object.assign(this, { jobId: value });
+  withJobId(jobId: string): this & Pick<IDIDRegistrationRequest, 'jobId'> {
+    return Object.assign(this, { jobId: jobId });
   }
 
-  withDidDocument(value: DIDDocument): this & Pick<IDIDRegistrationRequest, 'didDocument'> {
-    return Object.assign(this, { didDocument: value });
+  withDidDocument(didDocument: DIDDocument): this & Pick<IDIDRegistrationRequest, 'didDocument'> {
+    return Object.assign(this, { didDocument: didDocument });
   }
 
-  withOptions(value: Record<string, unknown>): this & Pick<IDIDRegistrationRequest, 'options'> {
-    return Object.assign(this, { options: value });
+  withOptions(options: Record<string, unknown>): this & Pick<IDIDRegistrationRequest, 'options'> {
+    return Object.assign(this, { options: options });
   }
 
-  withSecret(value: Record<string, unknown> | string): this & Pick<IDIDRegistrationRequest, 'secret'> {
-    return Object.assign(this, { secret: value });
+  withSecret(secret: Record<string, unknown> | string): this & Pick<IDIDRegistrationRequest, 'secret'> {
+    return Object.assign(this, { secret: secret });
   }
 
   build() {

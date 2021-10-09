@@ -21,13 +21,13 @@ And to call a universal resolver (e.g. https://dev.uniresolver.io) to resolve de
 
 ##### DID creation
  ```typescript
-const {Registrar, CrudRequestBuilder} = require('@sphereon/did-uni-client');
+import { UniRegistrar, DIDRegistrationRequestBuilder } from '@sphereon/did-uni-client';
 
 const method = 'btcr';
-const request = new CrudRequestBuilder()
+const request = new DIDRegistrationRequestBuilder()
     .withOptions({chain: 'TESTNET'})
     .build();
-const registrar = new Registrar();
+const registrar = new UniRegistrar();
 
 registrar.create(method, request) 
   .then(result => 'success')
@@ -36,14 +36,14 @@ registrar.create(method, request)
 
 ##### DID update
  ```typescript
-const {Registrar, CrudRequestBuilder} = require('@sphereon/did-uni-client');
+import { UniRegistrar, DIDRegistrationRequestBuilder } from '@sphereon/did-uni-client';
 
 const did = 'did:btcr:xz35-jznz-q6mr-7q6';
-const request = new CrudRequestBuilder()
+const request = new DIDRegistrationRequestBuilder()
     .withOptions({chain: 'TESTNET'})
     .withSecret({token:"ey..."})
     .build();
-const registrar = new Registrar();
+const registrar = new UniRegistrar();
 
 registrar.update(did, request)
   .then(result => 'success')
@@ -51,27 +51,28 @@ registrar.update(did, request)
  ```
 
 ##### DID deactivation
+
  ```typescript
-const {Registrar, CrudRequestBuilder} = require('@sphereon/did-uni-client');
+import { UniRegistrar, DIDRegistrationRequestBuilder } from '@sphereon/did-uni-client';
 
 const did = 'did:btcr:xz35-jznz-q6mr-7q6';
-const request = new CrudRequestBuilder()
-    .withOptions({chain: 'TESTNET'})
-    .withSecret({token:"ey..."})
-    .build();
-const registrar = new Registrar();
+const request = new DIDRegistrationRequestBuilder()
+.withOptions({chain: 'TESTNET'})
+.withSecret({token: "ey..."})
+.build();
+const registrar = new UniRegistrar();
 
 registrar.deactivate(did, request)
-  .then(result => 'success')
-  .catch(error => 'failed');
+.then(result => 'success')
+.catch(error => 'failed');
  ```
 
 ##### DID resolution
  ```typescript
-const {Resolver} = require('@sphereon/did-uni-client');
+import { UniResolver } from '@sphereon/did-uni-client';
 
 const did = 'did:btcr:xz35-jznz-q6mr-7q6';
-const resolver = new Resolver();
+const resolver = new UniResolver();
 
 resolver.resolve(did)
   .then(result => 'success')
@@ -80,25 +81,28 @@ resolver.resolve(did)
 
 #### DID resolution, as a DIF did-resolver driver
 You can also use this project as a did-resolver driver. This project is developed based on the guidelines of [Decentralized Identity](https://github.com/decentralized-identity/did-resolver/tree/master#implementing-a-did-method)
-You can use it simply by calling `getResolver('didMethodName')` followed by the respective 'didMethodName' as a function. This has to do with the fact that you typically use the driver as part of another resolver object, and that resolver registers all DID methods by key (see Example 3). :
+You can use it simply by calling `getUniResolver('didMethodName')` followed by the respective 'didMethodName' as a function. This has to do with the fact that you typically use the driver as part of another resolver object, and that resolver registers all DID methods by key (see Example 3). 
+It is also possible to register multiple methods ad once for use as did-resolver, using the getUniResolvers method.
+
+Examples:
 ```typescript
-const { getResolver, Resolver } = require('../src/resolver/Resolver');
+import { getUniResolver, UniResolver } from '@sphereon/did-uni-client';
 
 const did = 'did:btcr:xz35-jznz-q6mr-7q6';
 
 // Example 1: Use an option to provide an alternatieve resolution URL for bctr method
-const didResolutionResult1 = await getResolver('bctr', { 'resolveUrl': 'https://dev.uniresolver.io/1.0/identifiers'})
+const didResolutionResult1 = await getUniResolver('bctr', { resolveUrl: 'https://dev.uniresolver.io/1.0/identifiers'})
   .bctr(did);
 
 // Example 2: Use the standard resolution URL but for method factom
-const didResolutionResult2 = await getResolver('factom')
+const didResolutionResult2 = await getUniResolver('factom')
   .factom(did);
 
 
 
 
 //
-// Example 3: Use it together with other drivers:
+// Example 3: Use it together with other drivers and register 2 method:
 //
 
 // 2 other drivers
@@ -106,15 +110,13 @@ ethrResolver = ethr.getResolver();
 webResolver = web.getResolver();
 
 // 2 times the uni-driver but for different DID-methods
-btcrResolver = getResolver('btcr');
-eosUniResolver = getResolver('eosio');
+uniResolvers = getUniResolvers(['btcr', 'eosio']);
 
-//If you are using multiple methods you need to flatten them into one object
+//If you are using multiple methods using the did-resolver pacakge you need to flatten them into one object
 const resolver = new Resolver({
   ...ethrResolver,
   ...webResolver,
-  ...btcrResolver,
-  ...eosUniResolver
+  ...uniResolvers
 })
 
 // Actual resolution
@@ -123,7 +125,7 @@ const didResolutionResult3 = await resolver.resolve(did);
 ```
 ### Configuration
 To use the library, URL's needs to be available for universal registrar endpoints and universal resolver endpoints. There are three options to configure the URL's.
-The library will first check if there is an environment variable, if this is not present it will look in the config file. It is also possible to overwrite the default URL's by using one of the URL setters.
+The library will use a configuration object. If you do not provide one a default configuration object will be used that first checks if there are environment variables, if these are not present it will use default values. It is also possible to overwrite the default URL's by using one of the URL setters in the UniRegistrar and UniResolver.
 
 ##### Environment variable
 ###### Registrar
@@ -134,8 +136,6 @@ REGISTRAR_URL_DEACTIVATE - Defines the URL for a deactivate endpoint (e.g. https
 ###### Resolver
 RESOLVER_URL_RESOLVE - Defines the URL for a resolve endpoint (e.g. https://dev.uniresolver.io/1.0/identifiers).  
 
-##### Config file
-A config file is available here 'src/config.ts'.
 
 ### Build
 ```shell

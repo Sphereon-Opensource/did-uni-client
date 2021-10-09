@@ -1,4 +1,11 @@
-import { DIDDocument, DIDResolutionOptions, DIDResolutionResult, ParsedDID, Resolver } from 'did-resolver';
+import {
+  DIDResolutionOptions,
+  DIDResolutionResult,
+  DIDDocument as DIFDIDDocument,
+  VerificationMethod as DIFVerificationMethod,
+  ParsedDID,
+  Resolver,
+} from 'did-resolver';
 
 export type Extensible = Record<string, unknown>;
 
@@ -14,6 +21,23 @@ export interface Config {
 
   /** Resolver URL's*/
   resolveURL?: string;
+}
+
+export interface VerificationMethod extends DIFVerificationMethod {
+  publicKeyPem?: string;
+  publicKeyMultibase?: string;
+}
+
+/**
+ * Extending because of additions to the verification method
+ */
+export interface DIDDocument extends DIFDIDDocument {
+  verificationMethod?: VerificationMethod[];
+  authentication?: (string | VerificationMethod)[];
+  assertionMethod?: (string | VerificationMethod)[];
+  keyAgreement?: (string | VerificationMethod)[];
+  capabilityInvocation?: (string | VerificationMethod)[];
+  capabilityDelegation?: (string | VerificationMethod)[];
 }
 
 export interface DIDRegistrationResult {

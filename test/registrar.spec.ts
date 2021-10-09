@@ -1,20 +1,17 @@
+import { DIDDocument, DIDRegistrationRequestBuilder, DidUniConstants, UniRegistrar } from '../src';
 import { DefaultConfig } from '../src/types/constants';
 
 const { parse } = require('did-resolver');
 const nock = require('nock');
 
-const { DIDRegistrationRequestBuilder } = require('../src/registrar/DIDRegistrationRequestBuilder');
-const { UniRegistrar } = require('../src/registrar/UniRegistrar');
-const { Constants } = require('../src/types/constants');
-
-const didDocument = {
+const didDocument: DIDDocument = {
   '@context': 'https://w3id.org/did/v1',
   id: 'did:btcr:xz35-jznz-q6mr-7q6',
-  publicKey: [
+  verificationMethod: [
     {
       id: 'did:btcr:xz35-jznz-q6mr-7q6#keys-1',
       type: 'RsaVerificationKey2018',
-      owner: 'did:btcr:xz35-jznz-q6mr-7q6',
+      controller: 'did:btcr:xz35-jznz-q6mr-7q6',
       publicKeyPem: '-----BEGIN PUBLIC KEY...END PUBLIC KEY-----\r\n',
     },
   ],
@@ -30,13 +27,9 @@ const didDocument = {
       serviceEndpoint: 'https://example.com/messages/8377464',
     },
   ],
-  authentication: [
-    {
-      type: 'RsaSignatureAuthentication2018',
-      publicKey: 'did:btcr:xz35-jznz-q6mr-7q6#keys-1',
-    },
-  ],
+  authentication: ['did:btcr:xz35-jznz-q6mr-7q6#keys-1'],
 };
+
 const did = 'did:btcr:xz35-jznz-q6mr-7q6';
 const otherDid = 'did:btcr:xz35-jznz-q6mr-7q7';
 
@@ -133,7 +126,7 @@ describe('update identity', () => {
     const registrar = new UniRegistrar();
     const job = await registrar.update('abcdefg123456789', request);
 
-    expect(job.didState.state).toEqual(Constants.INVALID_DID);
+    expect(job.didState.state).toEqual(DidUniConstants.INVALID_DID);
   });
 
   it('should reject if not successful', async () => {
@@ -163,7 +156,7 @@ describe('deactivate identity', () => {
     const registrar = new UniRegistrar();
     const job = await registrar.deactivate('abcdefg123456789', request);
 
-    expect(job.didState.state).toEqual(Constants.INVALID_DID);
+    expect(job.didState.state).toEqual(DidUniConstants.INVALID_DID);
   });
 
   it('should reject if not successful', async () => {

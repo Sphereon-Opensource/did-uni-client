@@ -10,7 +10,7 @@ export class DIDRegistrationRequest implements IDIDRegistrationRequest {
   readonly options: Record<string, unknown>;
   readonly secret: Record<string, unknown> | string;
 
-  protected constructor(request?: DIDRegistrationRequest) {
+  public constructor(request?: IDIDRegistrationRequest) {
     if (request) {
       Object.assign(this, request);
     }

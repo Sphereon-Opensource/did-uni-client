@@ -1,4 +1,10 @@
 # Release Notes
+## v0.3.3 - 2021-10-16
+Exported getUniResolver(s) methods and enabled strict mode
+
+- Fixed:
+    * Export getUniResolver(s) methods, thx @brianorwhatever
+    * Enable strict mode
 
 ## v0.3.1 + 0.3.2 - 2021-10-09
 Fix npm packaging

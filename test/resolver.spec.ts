@@ -1,7 +1,7 @@
 import { Resolver as DIFResolver } from 'did-resolver';
 import nock from 'nock';
 
-import { getUniResolvers } from '../lib/resolver/UniResolver';
+import { getUniResolvers } from '../lib';
 import { DefaultConfig } from '../lib/types/constants';
 
 const { getUniResolver, UniResolver } = require('../lib/resolver/UniResolver');
@@ -124,21 +124,21 @@ describe('did resolution as single driver in DIF resolver', () => {
     const btcrResolver = getUniResolver('btcr');
     const resolver = new DIFResolver(btcrResolver);
     const didResolutionResult = await resolver.resolve('did:btcr:xz35-jznz-q6mr-7q6');
-    expect(didResolutionResult.didDocument.id).toEqual(did);
+    expect(didResolutionResult?.didDocument?.id).toEqual(did);
   });
 
   it('should resolve the did with base url', async () => {
     const btcrResolver = getUniResolver('btcr', { baseUrl: 'https://dev.uniresolver.io' });
     const resolver = new DIFResolver(btcrResolver);
     const didResolutionResult = await resolver.resolve('did:btcr:xz35-jznz-q6mr-7q6');
-    expect(didResolutionResult.didDocument.id).toEqual(did);
+    expect(didResolutionResult?.didDocument?.id).toEqual(did);
   });
 
   it('should not resolve the did because of wrong method', async () => {
     const ethrResolver = getUniResolver('ethr', { resolveUrl: 'https://dev.uniresolver.io/1.0/identifiers' });
     const resolver = new DIFResolver(ethrResolver);
     const didResolutionResult = await resolver.resolve('did:btcr:xz35-jznz-q6mr-7q6');
-    await expect(didResolutionResult.didResolutionMetadata.error).toEqual('unsupportedDidMethod');
+    await expect(didResolutionResult?.didResolutionMetadata?.error).toEqual('unsupportedDidMethod');
   });
 
   it('should not resolve the did because of no method', async () => {
@@ -157,11 +157,11 @@ describe('did resolution for multiple methods as driver in DIF resolver', () => 
     const resolvers = getUniResolvers(['btcr', 'ethr']);
     const resolver = new DIFResolver(...resolvers);
     const didResolutionResult = await resolver.resolve('did:btcr:xz35-jznz-q6mr-7q6');
-    expect(didResolutionResult.didDocument.id).toEqual(did);
+    expect(didResolutionResult?.didDocument?.id).toEqual(did);
   });
 
   it('should not resolve the did because of a null method', async () => {
-    expect(() => getUniResolvers(null)).toThrowError();
+    expect(() => getUniResolvers([] as never)).toThrowError();
   });
 
   it('should not resolve the did because of no method', async () => {

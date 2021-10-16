@@ -24,7 +24,10 @@ export class UniResolver implements Resolvable {
    * @return this.
    */
   public setBaseURL(url: string): this {
-    this.config.resolveURL = `${url}${Constants.URL_PATHNAME_REGEX.exec(this.config.resolveURL)[1]}`;
+    const path = Constants.URL_PATHNAME_REGEX.exec(this.config.resolveURL);
+    if (path) {
+      this.config.resolveURL = `${url}${path[1]}`;
+    }
 
     return this;
   }
@@ -62,7 +65,7 @@ export class UniResolver implements Resolvable {
     }
 
     const url = `${this.config.resolveURL}/${parsedDid.did}`;
-    return fetch(url).then(async (response) => {
+    return fetch(url).then(async (response: { status: number; text: () => string | PromiseLike<string | undefined> | undefined; json: () => string; }) => {
       if (response.status >= 400) {
         throw new Error(await response.text());
       } else {

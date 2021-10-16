@@ -5,7 +5,7 @@ import { Config } from './types';
 export const Constants = {
   INVALID_DID: 'invalidDid',
   URL_PATHNAME_REGEX: /.+?:\/\/.+?(\/.+?)(?:#|\?|$)/,
-};
+}
 
 export const DefaultURLs = {
   /** Registrar URL's*/

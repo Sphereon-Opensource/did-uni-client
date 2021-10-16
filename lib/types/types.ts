@@ -15,12 +15,12 @@ export type Options = Extensible;
 export type Secret = string | Extensible;
 
 export interface Config {
-  createURL?: string;
-  updateURL?: string;
-  deactivateURL?: string;
+  createURL: string;
+  updateURL: string;
+  deactivateURL: string;
 
   /** Resolver URL's*/
-  resolveURL?: string;
+  resolveURL: string;
 }
 
 export interface VerificationMethod extends DIFVerificationMethod {

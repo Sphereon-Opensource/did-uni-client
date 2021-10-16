@@ -27,11 +27,11 @@ export class UniRegistrar {
    * @return this.
    */
   public setBaseURL(url: string): UniRegistrar {
-    this.config.createURL = `${url}${Constants.URL_PATHNAME_REGEX.exec(this.config.createURL)[1]}`;
-    this.config.updateURL = `${url}${Constants.URL_PATHNAME_REGEX.exec(this.config.updateURL)[1]}`;
-    this.config.deactivateURL = `${url}${Constants.URL_PATHNAME_REGEX.exec(this.config.deactivateURL)[1]}`;
+    this.config.createURL = UniRegistrar.setConfigUrl(this.config.createURL, url)
+    this.config.updateURL = UniRegistrar.setConfigUrl(this.config.updateURL, url)
+    this.config.deactivateURL = UniRegistrar.setConfigUrl(this.config.deactivateURL, url)
 
-    return this;
+    return this
   }
 
   /**
@@ -110,6 +110,14 @@ export class UniRegistrar {
   public async deactivate(did: string, request: DIDRegistrationRequest): Promise<DIDRegistrationResult> {
     return executePost(this.config.deactivateURL, request, { did });
   }
+
+  private static setConfigUrl(configVal: string, url: string) {
+    const path = Constants.URL_PATHNAME_REGEX.exec(configVal);
+    if (path && path.length > 1) {
+      configVal = `${url}${path[1]}`
+    }
+    return configVal;
+  }
 }
 
 /**
@@ -141,6 +149,9 @@ async function executePost(
     }
     didMethod = parsedDid.method;
   }
+  if (!didMethod) {
+    throw new Error('No DID method passed or deducted')
+  }
   const url = createURL(baseUrl, didMethod);
 
   return fetch(url, {
@@ -150,7 +161,7 @@ async function executePost(
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ identifier, ...request }),
-  }).then(async (response) => {
+  }).then(async (response: { status: number; text: () => string | PromiseLike<string | undefined> | undefined; json: () => string; }) => {
     if (response.status >= 400) {
       throw new Error(await response.text());
     } else {

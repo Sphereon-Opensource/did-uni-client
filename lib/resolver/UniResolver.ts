@@ -1,7 +1,7 @@
-import { Resolver as AdditionalResolver, DIDResolutionOptions, DIDResolutionResult, parse, ParsedDID, Resolvable } from 'did-resolver';
+import {DIDResolutionOptions, DIDResolutionResult, parse, ParsedDID, Resolvable, ResolverRegistry} from 'did-resolver';
 
-import { Constants, DefaultConfig, errorResolutionResult } from '../types/constants';
-import { Config, DifResolver } from '../types/types';
+import {Constants, DefaultConfig, errorResolutionResult} from '../types/constants';
+import {Config, UniDIDResolutionOptions} from '../types/types';
 
 const fetch = require('cross-fetch');
 
@@ -58,13 +58,13 @@ export class UniResolver implements Resolvable {
    * @param did The identifier (did).
    * @return Promise<DIDResolutionResult>, resolution result.
    */
-  public resolve(did: string): Promise<DIDResolutionResult> {
-    const parsedDid = parse(did);
+  public resolve(didUrl: string, options?: DIDResolutionOptions): Promise<DIDResolutionResult> {
+    const parsedDid = parse(didUrl);
     if (parsedDid === null) {
       return errorResolutionResult('invalidDid');
     }
 
-    const url = `${this.config.resolveURL}/${parsedDid.did}`;
+    const url = `${options?.resolveUrl? options.resolveUrl : this.config.resolveURL}/${parsedDid.did}`;
     return fetch(url).then(async (response: { status: number; text: () => string | PromiseLike<string | undefined> | undefined; json: () => string; }) => {
       if (response.status >= 400) {
         throw new Error(await response.text());
@@ -78,35 +78,34 @@ export class UniResolver implements Resolvable {
 /**
  * Packaging the resolver as a driver to meet https://github.com/decentralized-identity/did-resolver spec
  */
-export function getUniResolver(didMethod: string, opts?: { resolveUrl?: string; baseUrl?: string }): DifResolver {
+export function getUniResolver(didMethod: string, opts?: UniDIDResolutionOptions): ResolverRegistry {
   if (!didMethod) {
     throw new Error('Please provide a did method for the uni-resolver client to resolve a DID document for using the method');
   }
 
-  const resolver: UniResolver = new UniResolver();
+  const uniResolver: UniResolver = new UniResolver();
   if (opts?.resolveUrl) {
-    resolver.setResolveURL(opts.resolveUrl);
+    uniResolver.setResolveURL(opts.resolveUrl);
   }
   if (opts?.baseUrl) {
-    resolver.setBaseURL(opts.baseUrl);
+    uniResolver.setBaseURL(opts.baseUrl);
   }
 
   /* eslint-disable @typescript-eslint/no-unused-vars */
   async function resolve(
     did: string,
     _parsed: ParsedDID,
-    _didResolver: AdditionalResolver,
+    _resolver: Resolvable,
     _options: DIDResolutionOptions
   ): Promise<DIDResolutionResult> {
-    return resolver.resolve(did);
+    return uniResolver.resolve(did, opts);
   }
-
   /* eslint-enable @typescript-eslint/no-unused-vars */
 
   return { [didMethod]: resolve };
 }
 
-export function getUniResolvers(didMethods: string[], opts?: { resolveUrl?: string; baseUrl?: string }): DifResolver[] {
+export function getUniResolvers(didMethods: string[], opts?: { resolveUrl?: string; baseUrl?: string }): ResolverRegistry[] {
   if (!didMethods || didMethods.length == 0) {
     throw new Error('Please provide at least one DID method for the uni-resolver client to resolve a DID document for using the method');
   }

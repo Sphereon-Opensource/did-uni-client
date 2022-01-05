@@ -1,11 +1,4 @@
-import {
-  DIDResolutionOptions,
-  DIDResolutionResult,
-  DIDDocument as DIFDIDDocument,
-  VerificationMethod as DIFVerificationMethod,
-  ParsedDID,
-  Resolver,
-} from 'did-resolver';
+import {DIDResolutionOptions, DIDDocument as DIFDIDDocument, VerificationMethod as DIFVerificationMethod,} from 'did-resolver';
 
 export type Extensible = Record<string, unknown>;
 
@@ -61,6 +54,10 @@ export interface IDIDRegistrationRequest {
   secret?: Secret;
 }
 
-export type DifResolver = {
-  [method: string]: (did: string, _parsed: ParsedDID, _didResolver: Resolver, _options: DIDResolutionOptions) => Promise<DIDResolutionResult>;
-};
+export interface UniDIDResolutionOptions extends DIDResolutionOptions {
+  resolveUrl?: string;
+  baseUrl?: string;
+}
+/*
+export type DifResolver = Record<string, Resolvable>;*/
+

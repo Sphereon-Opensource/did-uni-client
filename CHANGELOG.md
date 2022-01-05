@@ -1,4 +1,10 @@
 # Release Notes
+## v0.4.0 - 2022-01-05
+Update interface of getUniResolver(s) methods, since upstream made interface changes
+
+- Changed:
+    * Changed interface of getUniResolver(s) methods
+
 ## v0.3.3 - 2021-10-16
 Exported getUniResolver(s) methods and enabled strict mode
 

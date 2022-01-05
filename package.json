@@ -1,6 +1,6 @@
 {
   "name": "@sphereon/did-uni-client",
-  "version": "0.3.4-UNSTABLE",
+  "version": "0.4.0",
   "description": "A Typescript library to create, update, deactivate and resolve DID documents using a Universal Registrar and Universal Resolver",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -19,9 +19,11 @@
   "files": [
     "/dist"
   ],
+  "homepage": "https://sphereon.com",
   "repository": {
     "url": "https://github.com/Sphereon-Opensource/did-uni-client.git"
   },
+  "keywords": ["DID", "Decentralized Identifiers", "Universal Resolver", "Universal Registrar", "DID resolution"],
   "dependencies": {
     "cross-fetch": "^3.1.4",
     "did-resolver": "^3.1.5"

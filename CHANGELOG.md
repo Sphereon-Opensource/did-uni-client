@@ -1,4 +1,11 @@
 # Release Notes
+## v0.5.0 - 2022-10-26
+Update DID did-resolver from 3.x to 4.0.1.
+
+- Updated:
+    * Update DID did-resolver from 3.x to 4.0.1.
+
+
 ## v0.4.0 - 2022-01-05
 Update interface of getUniResolver(s) methods, since upstream made interface changes
 

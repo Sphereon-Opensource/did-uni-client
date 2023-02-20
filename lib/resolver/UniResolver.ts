@@ -1,9 +1,9 @@
-import {DIDResolutionOptions, DIDResolutionResult, parse, ParsedDID, Resolvable, ResolverRegistry} from 'did-resolver';
+import fetch from 'cross-fetch';
+import { DIDResolutionOptions, DIDResolutionResult, parse, ParsedDID, Resolvable, ResolverRegistry } from 'did-resolver';
 
-import {Constants, DefaultConfig, errorResolutionResult} from '../types/constants';
-import {Config, UniDIDResolutionOptions} from '../types/types';
+import { Constants, DefaultConfig, errorResolutionResult } from '../types/constants';
+import { Config, UniDIDResolutionOptions } from '../types/types';
 
-const fetch = require('cross-fetch');
 
 /**
  * Class for performing various DID resolving operations.
@@ -58,20 +58,19 @@ export class UniResolver implements Resolvable {
    * @param did The identifier (did).
    * @return Promise<DIDResolutionResult>, resolution result.
    */
-  public resolve(didUrl: string, options?: DIDResolutionOptions): Promise<DIDResolutionResult> {
+  public async resolve(didUrl: string, options?: DIDResolutionOptions): Promise<DIDResolutionResult> {
     const parsedDid = parse(didUrl);
     if (parsedDid === null) {
       return errorResolutionResult('invalidDid');
     }
 
-    const url = `${options?.resolveUrl? options.resolveUrl : this.config.resolveURL}/${parsedDid.did}`;
-    return fetch(url).then(async (response: { status: number; text: () => string | PromiseLike<string | undefined> | undefined; json: () => string; }) => {
-      if (response.status >= 400) {
-        throw new Error(await response.text());
-      } else {
-        return response.json();
-      }
-    });
+    const url = `${options?.resolveUrl ? options.resolveUrl : this.config.resolveURL}/${parsedDid.did}`;
+    const response = await fetch(url);
+    if (response.status >= 400) {
+      throw new Error(await response.text());
+    } else {
+      return await response.json();
+    }
   }
 }
 
@@ -100,6 +99,7 @@ export function getUniResolver(didMethod: string, opts?: UniDIDResolutionOptions
   ): Promise<DIDResolutionResult> {
     return uniResolver.resolve(did, opts);
   }
+
   /* eslint-enable @typescript-eslint/no-unused-vars */
 
   return { [didMethod]: resolve };

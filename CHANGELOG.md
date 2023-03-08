@@ -1,4 +1,13 @@
 # Release Notes
+
+## v0.6.0 - 2023-03-08
+Update DID did-resolver, make resolve met async
+
+- Changed:
+  * Make resolve method async
+- Updated:
+  * Update DID did-resolver from 4.0.1 to 4.1.0.
+
 ## v0.5.0 - 2022-10-26
 Update DID did-resolver from 3.x to 4.0.1.
 

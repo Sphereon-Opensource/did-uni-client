@@ -1,6 +1,6 @@
 {
   "name": "@sphereon/did-uni-client",
-  "version": "0.6.1-unstable.0",
+  "version": "0.6.1",
   "description": "A Typescript library to create, update, deactivate and resolve DID documents using a Universal Registrar and Universal Resolver",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",

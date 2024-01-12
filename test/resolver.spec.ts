@@ -102,7 +102,7 @@ describe('did resolution as driver directly', () => {
 
   it('should resolve the did', async () => {
     const didResolutionResult = await getUniResolver('btcr', { resolveUrl: 'https://dev.uniresolver.io/1.0/identifiers' }).btcr(
-      'did:btcr:xz35-jznz-q6mr-7q6'
+      'did:btcr:xz35-jznz-q6mr-7q6',
     );
     expect(didResolutionResult.didDocument.id).toEqual(did);
   });

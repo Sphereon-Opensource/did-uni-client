@@ -1,5 +1,10 @@
 # Release Notes
 
+## v0.6.1 - 2024-01-14
+
+- Updated:
+  - Updated dependencies
+
 ## v0.6.0 - 2023-03-08
 Update DID did-resolver, make resolve met async
 

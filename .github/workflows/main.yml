@@ -8,23 +8,28 @@ on:
   workflow_dispatch:
 
 jobs:
-  tsc:
-    name: tsc
+  build-test:
+    name: Build and test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: install node v16
-      uses: actions/setup-node@v2
+    - uses: actions/checkout@v3
       with:
-        node-version: 16
-    - name: yarn install
-      run: yarn install
-    - name: tsc
-      uses: icrawl/action-tsc@v1
-    - name: yarn build
-      run: yarn build
-    - name: yarn test
-      run: yarn test
+        fetch-depth: 0
+    - uses: pnpm/action-setup@v2
+      with:
+        version: 8
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20.x'
+        cache: 'pnpm'
+    - run: pnpm add -g pnpm
+    - run: pnpm install
+    - run: pnpm build
+    - name: pnpm build
+      run: pnpm build
+    - name: pnpm test
+      run: pnpm test
     - name: codecov
       uses: codecov/codecov-action@v2
       with:

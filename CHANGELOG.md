@@ -1,5 +1,13 @@
 # Release Notes
 
+## v0.6.2 - 2024-04-03
+
+- Changed:
+  - Made environment vars using process.env optional, to allow the lib to be used directly in a browser
+  - Moved to pnpm instead of yarn, like most of our repos
+- Updated:
+  - Updated dependencies
+
 ## v0.6.1 - 2024-01-14
 
 - Updated:

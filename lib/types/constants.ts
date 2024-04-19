@@ -18,10 +18,10 @@ export const DefaultURLs = {
 };
 
 export const DefaultConfig: Config = {
-  createURL: process?.env.REGISTRAR_URL_CREATE ?? DefaultURLs.CREATE,
-  updateURL: process?.env.REGISTRAR_URL_UPDATE ?? DefaultURLs.UPDATE,
-  deactivateURL: process?.env.REGISTRAR_URL_DEACTIVATE ?? DefaultURLs.DEACTIVATE,
-  resolveURL: process?.env.RESOLVER_URL_RESOLVE ?? DefaultURLs.RESOLVE,
+  createURL: (typeof process !== 'undefined' && process.env.REGISTRAR_URL_CREATE) || exports.DefaultURLs.CREATE,
+  updateURL: (typeof process !== 'undefined' && process.env.REGISTRAR_URL_UPDATE) || exports.DefaultURLs.UPDATE,
+  deactivateURL: (typeof process !== 'undefined' && process.env.REGISTRAR_URL_DEACTIVATE) || exports.DefaultURLs.DEACTIVATE,
+  resolveURL: (typeof process !== 'undefined' && process.env.RESOLVER_URL_RESOLVE) || exports.DefaultURLs.RESOLVE
 };
 
 const EMPTY_RESULT: DIDResolutionResult = {

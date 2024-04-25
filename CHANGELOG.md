@@ -1,4 +1,8 @@
 # Release Notes
+## v0.6.3 - 2024-04-25
+
+- Fixed:
+  - proces.env logic was broken on browsers
 
 ## v0.6.2 - 2024-04-03
 

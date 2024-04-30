@@ -5,6 +5,7 @@ import { parse } from 'did-resolver';
 import { Constants, DefaultConfig } from '../types/constants';
 import { Config, DIDRegistrationResult } from '../types/types';
 
+import { DIDDeactivateRequest } from './DIDDeactivateRequest';
 import { DIDRegistrationRequest } from './DIDRegistrationRequest';
 
 const fetch = require('cross-fetch');
@@ -103,12 +104,12 @@ export class UniRegistrar {
   /**
    * Deactivates a identity for a specific method.
    *
-   * @param did The identifier (did).
+   * @param did
    * @param request Request matching the method needed for deactivating the identity.
    * @return {didResolutionMetadata: {error: string}}, job result.
    */
-  public async deactivate(did: string, request: DIDRegistrationRequest): Promise<DIDRegistrationResult> {
-    return executePost(this.config.deactivateURL, request, { did });
+  public async deactivate(did: string, request: DIDDeactivateRequest): Promise<DIDRegistrationResult> {
+    return executePost(this.config.deactivateURL, new DIDDeactivateRequest({ ...request, did }), {did});
   }
 
   private static setConfigUrl(configVal: string, url: string) {
@@ -137,8 +138,11 @@ async function executePost(
   opts: { did?: string; method?: string }
 ): Promise<DIDRegistrationResult> {
   let didMethod = opts?.method;
-  const identifier = opts?.did;
-  if (identifier) {
+  let identifier = opts?.did;
+  if (isDIDDeactivateRequest(request)) {
+    identifier = request.did;
+    didMethod = didMethod || parse(identifier)?.method;
+  } else if (identifier) {
     const parsedDid = parse(identifier);
     if (parsedDid === null) {
       return new Promise((resolve) =>
@@ -150,9 +154,14 @@ async function executePost(
     didMethod = parsedDid.method;
   }
   if (!didMethod) {
-    throw new Error('No DID method passed or deducted')
+    return new Promise((resolve) =>
+      resolve({
+        didState: { state: Constants.INVALID_DID },
+      })
+    );
   }
-  const url = createURL(baseUrl, didMethod);
+  const url = isDIDDeactivateRequest(request) ? baseUrl : createURL(baseUrl, didMethod);
+  const requestBody = isDIDDeactivateRequest(request) ? { ...request } : { identifier, ...request };
 
   return fetch(url, {
     method: 'post',
@@ -160,7 +169,7 @@ async function executePost(
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ identifier, ...request }),
+    body: JSON.stringify(requestBody),
   }).then(async (response: { status: number; text: () => string | PromiseLike<string | undefined> | undefined; json: () => string; }) => {
     if (response.status >= 400) {
       throw new Error(await response.text());
@@ -169,3 +178,8 @@ async function executePost(
     }
   });
 }
+
+function isDIDDeactivateRequest(request: DIDRegistrationRequest | DIDDeactivateRequest): request is DIDDeactivateRequest {
+  return 'did' in request && true;
+}
+

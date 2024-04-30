@@ -1,4 +1,5 @@
 import { DIDDocument, DIDRegistrationRequestBuilder, DidUniConstants, UniRegistrar } from '../lib';
+import { DIDDeactivateRequestBuilder } from '../lib/registrar/DIDDeactivateRequestBuilder';
 import { DefaultConfig } from '../lib/types/constants';
 
 const { parse } = require('did-resolver');
@@ -33,9 +34,16 @@ const didDocument: DIDDocument = {
 const did = 'did:btcr:xz35-jznz-q6mr-7q6';
 const otherDid = 'did:btcr:xz35-jznz-q6mr-7q7';
 
-const request = new DIDRegistrationRequestBuilder()
+const registrationRequest = new DIDRegistrationRequestBuilder()
   .withJobId('6d85bcd0-2ea3-4288-ab00-15afadd8a156')
   .withDidDocument(didDocument)
+  .withOptions({ chain: 'TESTNET' })
+  .withSecret({ seed: '72WGp7NgFR1Oqdi8zlt7jQQ434XR0cNQ' })
+  .build();
+
+const deactivationRequest = new DIDDeactivateRequestBuilder()
+  .withJobId('6d85bcd0-2ea3-4288-ab00-15afadd8a156')
+  .withDid(didDocument.id)
   .withOptions({ chain: 'TESTNET' })
   .withSecret({ seed: '72WGp7NgFR1Oqdi8zlt7jQQ434XR0cNQ' })
   .build();
@@ -84,47 +92,47 @@ describe('create identity', () => {
   const otherMethod = 'otherMethod';
 
   nock(DefaultConfig.createURL)
-    .post(`?method=${method}`, { ...request })
+    .post(`?method=${method}`, { ...registrationRequest })
     .reply(200, { jobId: '6d85bcd0-2ea3-4288-ab00-15afadd8a156' });
 
   nock(DefaultConfig.createURL)
-    .post(`?method=${otherMethod}`, { ...request })
+    .post(`?method=${otherMethod}`, { ...registrationRequest })
     .reply(500, 'Unable to create');
 
   it('should return identity creation job', async () => {
     const registrar = new UniRegistrar();
     registrar.setBaseURL('https://uniregistrar.io');
-    const job = await registrar.create(method, request);
+    const job = await registrar.create(method, registrationRequest);
 
-    expect(job.jobId).toEqual(request.jobId);
+    expect(job.jobId).toEqual(registrationRequest.jobId);
   });
 
   it('should reject if not successful', async () => {
     const registrar = new UniRegistrar();
 
-    await expect(registrar.create(otherMethod, request)).rejects.toThrow();
+    await expect(registrar.create(otherMethod, registrationRequest)).rejects.toThrow();
   });
 });
 
 describe('update identity', () => {
   nock(DefaultConfig.updateURL)
-    .post(`?method=${parse(did).method}`, { identifier: did, ...request })
+    .post(`?method=${parse(did).method}`, { identifier: did, ...registrationRequest })
     .reply(200, { jobId: '6d85bcd0-2ea3-4288-ab00-15afadd8a156' });
 
   nock(DefaultConfig.updateURL)
-    .post(`?method=${parse(did).method}`, { identifier: otherDid, ...request })
+    .post(`?method=${parse(did).method}`, { identifier: otherDid, ...registrationRequest })
     .reply(500, 'Unable to update');
 
   it('should return identity update job', async () => {
     const registrar = new UniRegistrar();
-    const job = await registrar.update(did, request);
+    const job = await registrar.update(did, registrationRequest);
 
-    expect(job.jobId).toEqual(request.jobId);
+    expect(job.jobId).toEqual(registrationRequest.jobId);
   });
 
   it('should return didResolutionMetadata with invalidDid when providing invalid did', async () => {
     const registrar = new UniRegistrar();
-    const job = await registrar.update('abcdefg123456789', request);
+    const job = await registrar.update('abcdefg123456789', registrationRequest);
 
     expect(job.didState.state).toEqual(DidUniConstants.INVALID_DID);
   });
@@ -132,36 +140,34 @@ describe('update identity', () => {
   it('should reject if not successful', async () => {
     const registrar = new UniRegistrar();
 
-    await expect(registrar.update(otherDid, request)).rejects.toThrow();
+    await expect(registrar.update(otherDid, registrationRequest)).rejects.toThrow();
   });
 });
 
 describe('deactivate identity', () => {
   nock(DefaultConfig.deactivateURL)
-    .post(`?method=${parse(did).method}`, { identifier: did, ...request })
+    .post(``, { ...deactivationRequest })
     .reply(200, { jobId: '6d85bcd0-2ea3-4288-ab00-15afadd8a156' });
 
   nock(DefaultConfig.deactivateURL)
-    .post(`?method=${parse(did).method}`, { identifier: otherDid, ...request })
+    .post(``, { ...deactivationRequest, did: otherDid })
     .reply(500, 'Unable to update');
 
   it('should return identity deactivation job', async () => {
     const registrar = new UniRegistrar();
-    const job = await registrar.deactivate(did, request);
+    const job = await registrar.deactivate(did, deactivationRequest);
 
-    expect(job.jobId).toEqual(request.jobId);
+    expect(job.jobId).toEqual(registrationRequest.jobId);
   });
 
   it('should return didResolutionMetadata with invalidDid when providing invalid did', async () => {
     const registrar = new UniRegistrar();
-    const job = await registrar.deactivate('abcdefg123456789', request);
-
+    const job = await registrar.deactivate('abcdefg123456789', deactivationRequest);
     expect(job.didState.state).toEqual(DidUniConstants.INVALID_DID);
   });
 
   it('should reject if not successful', async () => {
     const registrar = new UniRegistrar();
-
-    await expect(registrar.deactivate(otherDid, request)).rejects.toThrow();
+    await expect(registrar.deactivate(otherDid, deactivationRequest)).rejects.toThrow();
   });
 });

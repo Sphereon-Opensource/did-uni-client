@@ -54,6 +54,13 @@ export interface IDIDRegistrationRequest {
   secret?: Secret;
 }
 
+export interface IDIDDeactivateRequest extends Omit<IDIDRegistrationRequest, 'didDocument'> {
+  jobId?: string;
+  options?: Options;
+  secret?: Secret;
+  did: string;
+}
+
 export interface UniDIDResolutionOptions extends DIDResolutionOptions {
   resolveUrl?: string;
   baseUrl?: string;

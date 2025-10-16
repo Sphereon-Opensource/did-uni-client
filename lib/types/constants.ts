@@ -14,7 +14,7 @@ export const DefaultURLs = {
   DEACTIVATE: 'https://uniregistrar.io/1.0/deactivate',
 
   /** Resolver URL's*/
-  RESOLVE: 'https://dev.uniresolver.io/1.0/identifiers',
+  RESOLVE: 'https://uniresolver.dev.sphereon.com/1.0/identifiers',
 };
 
 export const DefaultConfig: Config = {

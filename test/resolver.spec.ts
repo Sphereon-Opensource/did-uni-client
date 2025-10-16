@@ -101,7 +101,7 @@ describe('did resolution as driver directly', () => {
   });
 
   it('should resolve the did', async () => {
-    const didResolutionResult = await getUniResolver('btcr', { resolveUrl: 'https://dev.uniresolver.io/1.0/identifiers' }).btcr(
+    const didResolutionResult = await getUniResolver('btcr', { resolveUrl: 'https://uniresolver.dev.sphereon.com/1.0/identifiers' }).btcr(
       'did:btcr:xz35-jznz-q6mr-7q6',
     );
     expect(didResolutionResult.didDocument.id).toEqual(did);
@@ -128,21 +128,21 @@ describe('did resolution as single driver in DIF resolver', () => {
   });
 
   it('should resolve the did with base url', async () => {
-    const btcrResolver = getUniResolver('btcr', { baseUrl: 'https://dev.uniresolver.io' });
+    const btcrResolver = getUniResolver('btcr', { baseUrl: 'https://uniresolver.dev.sphereon.com' });
     const resolver = new DIFResolver(btcrResolver);
     const didResolutionResult = await resolver.resolve('did:btcr:xz35-jznz-q6mr-7q6');
     expect(didResolutionResult?.didDocument?.id).toEqual(did);
   });
 
   it('should not resolve the did because of wrong method', async () => {
-    const ethrResolver = getUniResolver('ethr', { resolveUrl: 'https://dev.uniresolver.io/1.0/identifiers' });
+    const ethrResolver = getUniResolver('ethr', { resolveUrl: 'https://uniresolver.dev.sphereon.com/1.0/identifiers' });
     const resolver = new DIFResolver(ethrResolver);
     const didResolutionResult = await resolver.resolve('did:btcr:xz35-jznz-q6mr-7q6');
     await expect(didResolutionResult?.didResolutionMetadata?.error).toEqual('unsupportedDidMethod');
   });
 
   it('should not resolve the did because of no method', async () => {
-    expect(() => getUniResolver(null, { resolveUrl: 'https://dev.uniresolver.io/1.0/identifiers' })).toThrowError();
+    expect(() => getUniResolver(null, { resolveUrl: 'https://uniresolver.dev.sphereon.com/1.0/identifiers' })).toThrowError();
   });
 });
 describe('did resolution for multiple methods as driver in DIF resolver', () => {

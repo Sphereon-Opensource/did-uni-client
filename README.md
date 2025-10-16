@@ -9,7 +9,7 @@
 
 ### Did-uni-client
 The did-uni-client is a library to call a universal registrar (e.g. https://uniregistrar.io) to create, update and deactivate decentralized identifiers (DIDs). 
-And to call a universal resolver (e.g. https://dev.uniresolver.io) to resolve decentralized identifiers to DID Documents. It is written in Typescript and can be compiled to any target JavaScript version.
+And to call a universal resolver (e.g. https://uniresolver.dev.sphereon.com) to resolve decentralized identifiers to DID Documents. It is written in Typescript and can be compiled to any target JavaScript version.
 
 ### Supported actions
  * Creating a decentralized identifier (DID).
@@ -91,7 +91,7 @@ import { getUniResolver, UniResolver } from '@sphereon/did-uni-client';
 const did = 'did:btcr:xz35-jznz-q6mr-7q6';
 
 // Example 1: Use an option to provide an alternatieve resolution URL for bctr method
-const didResolutionResult1 = await getUniResolver('bctr', { resolveUrl: 'https://dev.uniresolver.io/1.0/identifiers'})
+const didResolutionResult1 = await getUniResolver('bctr', { resolveUrl: 'https://uniresolver.dev.sphereon.com/1.0/identifiers'})
   .bctr(did);
 
 // Example 2: Use the standard resolution URL but for method factom
@@ -134,7 +134,7 @@ REGISTRAR_URL_UPDATE - Defines the URL for a update endpoint (e.g. https://unire
 REGISTRAR_URL_DEACTIVATE - Defines the URL for a deactivate endpoint (e.g. https://uniregistrar.io/1.0/deactivate).  
 
 ###### Resolver
-RESOLVER_URL_RESOLVE - Defines the URL for a resolve endpoint (e.g. https://dev.uniresolver.io/1.0/identifiers).  
+RESOLVER_URL_RESOLVE - Defines the URL for a resolve endpoint (e.g. https://uniresolver.dev.sphereon.com/1.0/identifiers).  
 
 
 ### Build
